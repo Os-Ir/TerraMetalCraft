@@ -1,0 +1,28 @@
+modLoader="javafml"
+loaderVersion="[35,)"
+license="GNU General Public License v3.0"
+issueTrackerURL="https://github.com/Os-Ir/TerraMetalCraft/issues"
+
+[[mods]]
+  modId="terrametalcraft"
+  version="1.0.0"
+  displayName="Terra Metal Craft"
+  displayURL="https://github.com/Os-Ir/TerraMetalCraft"
+  logoFile="logo.png"
+  credits="Cuckoo Dev Team"
+  authors="Os-Ir"
+  description="Original technical advancement of the Evolution of Knowledge history -- <Recalling the EOK>"
+
+  [[dependencies.terrametalcraft]]
+    modId="forge"
+    mandatory=true
+    versionRange="[35.1.4,)"
+    ordering="NONE"
+    side="BOTH"
+
+  [[dependencies.terrametalcraft]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.4,)"
+    ordering="NONE"
+    side="BOTH"
