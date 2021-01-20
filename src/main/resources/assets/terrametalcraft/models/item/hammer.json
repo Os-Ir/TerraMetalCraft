@@ -1,0 +1,7 @@
+{
+	"parent":"item/generated",
+	"textures": {
+		"layer0":"terrametalcraft:item/hammer_0",
+		"layer1":"terrametalcraft:item/hammer_1"
+	}
+}

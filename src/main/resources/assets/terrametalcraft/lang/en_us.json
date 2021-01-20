@@ -1,5 +1,22 @@
 {
 	"itemGroup.terrametalcraft_item": "TerraMetalCraft - Item",
+	"itemGroup.terrametalcraft_equipment": "TerraMetalCraft - Equipment",
+
 	"item.terrametalcraft.tmc_coin": "TMC Coin",
-	"item.terrametalcraft.stone": "Stone"
+	"item.terrametalcraft.stone": "Stone",
+	"item.terrametalcraft.chipped_stone": "Chipped Stone",
+	"item.terrametalcraft.grinded_stone": "Grinded Stone",
+	"item.terrametalcraft.chipped_flint": "Chipped Flint",
+	"item.terrametalcraft.grinded_flint": "Grinded Flint",
+	"item.terrametalcraft.grass": "Grass",
+	"item.terrametalcraft.hay": "Hay",
+
+	"item.terrametalcraft.hammer": "Hammer",
+
+	"block.terrametalcraft.stone_work_table": "Stone Work Table",
+
+	"cuckoolib.item.tool.head": "Head",
+	"cuckoolib.item.tool.handle": "Handle",
+
+	"cuckoolib.item.carving.carved": "Carved"
 }

@@ -1,5 +1,22 @@
 {
 	"itemGroup.terrametalcraft_item": "群峦金属工艺 - 物品",
+	"itemGroup.terrametalcraft_equipment": "群峦金属工艺 - 设备",
+
 	"item.terrametalcraft.tmc_coin": "TMC纪念币",
-	"item.terrametalcraft.stone": "石块"
+	"item.terrametalcraft.stone": "石块",
+	"item.terrametalcraft.chipped_stone": "打制石块",
+	"item.terrametalcraft.grinded_stone": "磨制石块",
+	"item.terrametalcraft.chipped_flint": "打制燧石",
+	"item.terrametalcraft.grinded_flint": "磨制燧石",
+	"item.terrametalcraft.grass": "草",
+	"item.terrametalcraft.hay": "干草",
+
+	"item.terrametalcraft.hammer": "锤",
+
+	"block.terrametalcraft.stone_work_table": "石器加工台",
+
+	"cuckoolib.item.tool.head": "头部",
+	"cuckoolib.item.tool.handle": "手柄",
+
+	"cuckoolib.item.carving.carved": "已雕刻"
 }

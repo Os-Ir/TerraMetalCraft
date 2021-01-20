@@ -3,11 +3,16 @@ package com.osir.terrametalcraft;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.github.zi_jing.cuckoolib.gui.CapabilityListener;
+import com.osir.terrametalcraft.api.capability.CapabilityCarving;
+import com.osir.terrametalcraft.api.capability.ModCapabilities;
+import com.osir.terrametalcraft.common.EventHandler;
 import com.osir.terrametalcraft.common.RegistryHandler;
+import com.osir.terrametalcraft.common.item.ModItems;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -26,7 +31,14 @@ public class Main {
 	public static final ItemGroup GROUP_ITEM = new ItemGroup(MODID + "_item") {
 		@Override
 		public ItemStack createIcon() {
-			return new ItemStack(Items.IRON_INGOT);
+			return new ItemStack(ModItems.tmcCoin);
+		}
+	};
+
+	public static final ItemGroup GROUP_EQUIPMENT = new ItemGroup(MODID + "_equipment") {
+		@Override
+		public ItemStack createIcon() {
+			return new ItemStack(Blocks.FURNACE);
 		}
 	};
 
@@ -42,7 +54,9 @@ public class Main {
 	}
 
 	public void setup(FMLCommonSetupEvent event) {
-
+		MinecraftForge.EVENT_BUS.register(new EventHandler());
+		RegistryHandler.registerCapability();
+		CapabilityListener.register(CapabilityCarving.KEY, ModCapabilities.CARVING);
 	}
 
 	public void loadComplete(FMLLoadCompleteEvent event) {
