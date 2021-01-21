@@ -1,7 +1,10 @@
 package com.osir.terrametalcraft.common;
 
 import com.github.zi_jing.cuckoolib.item.ItemBase;
+import com.github.zi_jing.cuckoolib.item.MaterialItem;
 import com.github.zi_jing.cuckoolib.item.MaterialToolItem;
+import com.github.zi_jing.cuckoolib.material.SolidShape;
+import com.github.zi_jing.cuckoolib.material.type.Material;
 import com.osir.terrametalcraft.Main;
 import com.osir.terrametalcraft.api.capability.CapabilityCarving;
 import com.osir.terrametalcraft.api.capability.ICarving;
@@ -26,6 +29,16 @@ public class RegistryHandler {
 		ModItems.toolHammer = new MaterialToolItem(Main.MODID, "hammer", Main.GROUP_ITEM, ToolHammer.INSTANCE);
 
 		ModBlocks.stoneWorkTable = new BlockStoneWorkTable();
+
+		SolidShape.REGISTRY.values().forEach((shape) -> {
+			if (!shape.isEmpty()) {
+				Material.REGISTRY.values().forEach((material) -> {
+					if (!material.isEmpty() && shape.generateMaterial(material)) {
+						new MaterialItem(Main.MODID, shape, material);
+					}
+				});
+			}
+		});
 	}
 
 	public static void registerCapability() {

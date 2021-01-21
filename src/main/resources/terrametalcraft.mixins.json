@@ -1,0 +1,13 @@
+{
+	"required": true,
+	"package": "com.osir.terrametalcraft.mixin",
+	"compatibilityLevel": "JAVA_8",
+	"mixins": [
+		"ModelBakeryMixin"
+	],
+	"client": [],
+	"server": [],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
