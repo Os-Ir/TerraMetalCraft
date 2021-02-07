@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:knife_heads/iron",
+    "#forge:knife_heads/copper",
+    "#forge:knife_heads/wrought_iron",
+    "#forge:knife_heads/pig_iron",
+    "#forge:knife_heads/steel",
+    "#forge:knife_heads/bronze",
+    "#forge:knife_heads/black_bronze",
+    "#forge:knife_heads/bismuth_bronze",
+    "#forge:knife_heads/flint",
+    "#forge:knife_heads/stone"
+  ]
+}

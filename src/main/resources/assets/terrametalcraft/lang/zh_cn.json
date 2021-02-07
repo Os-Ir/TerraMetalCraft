@@ -15,6 +15,8 @@
 
 	"block.terrametalcraft.stone_work_table": "石器加工台",
 
+	"modulargui.stone_work_table.name": "石器加工台",
+
 	"cuckoolib.item.tool.head": "头部",
 	"cuckoolib.item.tool.handle": "手柄",
 

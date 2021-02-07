@@ -6,9 +6,9 @@ import org.apache.logging.log4j.Logger;
 import com.github.zi_jing.cuckoolib.gui.CapabilityListener;
 import com.osir.terrametalcraft.api.capability.CapabilityCarving;
 import com.osir.terrametalcraft.api.capability.ModCapabilities;
-import com.osir.terrametalcraft.common.EventHandler;
 import com.osir.terrametalcraft.common.RegistryHandler;
 import com.osir.terrametalcraft.common.item.ModItems;
+import com.osir.terrametalcraft.common.recipe.RecipeHandler;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
@@ -54,9 +54,9 @@ public class Main {
 	}
 
 	public void setup(FMLCommonSetupEvent event) {
-		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		RegistryHandler.registerCapability();
 		CapabilityListener.register(CapabilityCarving.KEY, ModCapabilities.CARVING);
+		RecipeHandler.register();
 	}
 
 	public void loadComplete(FMLLoadCompleteEvent event) {

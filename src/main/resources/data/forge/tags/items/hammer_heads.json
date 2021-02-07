@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:hammer_heads/iron",
+    "#forge:hammer_heads/copper",
+    "#forge:hammer_heads/wrought_iron",
+    "#forge:hammer_heads/pig_iron",
+    "#forge:hammer_heads/steel",
+    "#forge:hammer_heads/bronze",
+    "#forge:hammer_heads/black_bronze",
+    "#forge:hammer_heads/bismuth_bronze",
+    "#forge:hammer_heads/flint",
+    "#forge:hammer_heads/stone"
+  ]
+}

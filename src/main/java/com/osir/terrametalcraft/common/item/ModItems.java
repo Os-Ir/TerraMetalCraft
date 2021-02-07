@@ -13,6 +13,7 @@ public class ModItems {
 	public static Item grindedFlint;
 	public static Item grass;
 	public static Item hay;
+	public static Item gun;
 
 	public static MaterialToolItem toolHammer;
 }

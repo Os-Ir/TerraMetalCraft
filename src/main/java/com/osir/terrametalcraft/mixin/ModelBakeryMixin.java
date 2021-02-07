@@ -13,12 +13,14 @@ import net.minecraft.util.ResourceLocation;
 
 @Mixin(ModelBakery.class)
 public class ModelBakeryMixin {
+	private static final String PATH_PREFIX = "item/material_item.";
+
 	@Inject(method = "loadModel", at = @At("HEAD"), cancellable = true)
 	private void onLoadModel(ResourceLocation location, CallbackInfoReturnable<BlockModel> callback) {
-		if (!location.getNamespace().equals(Main.MODID) || !location.getPath().startsWith("item/material_item")) {
+		if (!location.getNamespace().equals(Main.MODID) || !location.getPath().startsWith(PATH_PREFIX)) {
 			return;
 		}
-		String dat = location.getPath().substring(19);
+		String dat = location.getPath().substring(PATH_PREFIX.length());
 		int p = dat.indexOf(".");
 		String shape = dat.substring(0, p);
 		String jsonText = "{\n	\"parent\": \"item/generated\",\n	\"textures\": {\n		\"layer0\": \"" + Main.MODID

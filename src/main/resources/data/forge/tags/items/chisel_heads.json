@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:chisel_heads/iron",
+    "#forge:chisel_heads/copper",
+    "#forge:chisel_heads/wrought_iron",
+    "#forge:chisel_heads/pig_iron",
+    "#forge:chisel_heads/steel",
+    "#forge:chisel_heads/bronze",
+    "#forge:chisel_heads/black_bronze",
+    "#forge:chisel_heads/bismuth_bronze",
+    "#forge:chisel_heads/flint",
+    "#forge:chisel_heads/stone"
+  ]
+}

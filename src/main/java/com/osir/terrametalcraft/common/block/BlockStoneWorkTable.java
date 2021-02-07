@@ -34,11 +34,12 @@ public class BlockStoneWorkTable extends Block {
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand handIn, BlockRayTraceResult hit) {
-		if (!world.isRemote) {
-			TEStoneWorkTable te = (TEStoneWorkTable) world.getTileEntity(pos);
-			ModularGuiInfo.openModularGui(te, (ServerPlayerEntity) player);
+		if (world.isRemote) {
+			return ActionResultType.SUCCESS;
 		}
-		return ActionResultType.PASS;
+		TEStoneWorkTable te = (TEStoneWorkTable) world.getTileEntity(pos);
+		ModularGuiInfo.openModularGui(te, (ServerPlayerEntity) player);
+		return ActionResultType.CONSUME;
 	}
 
 	@Override

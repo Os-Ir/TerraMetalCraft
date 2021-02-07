@@ -14,6 +14,8 @@
 	"item.terrametalcraft.hammer": "Hammer",
 
 	"block.terrametalcraft.stone_work_table": "Stone Work Table",
+	
+	"modulargui.stone_work_table.name": "Stone Work Table",
 
 	"cuckoolib.item.tool.head": "Head",
 	"cuckoolib.item.tool.handle": "Handle",

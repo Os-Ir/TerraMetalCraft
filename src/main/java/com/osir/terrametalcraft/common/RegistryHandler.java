@@ -11,6 +11,7 @@ import com.osir.terrametalcraft.api.capability.ICarving;
 import com.osir.terrametalcraft.api.capability.StorageCarving;
 import com.osir.terrametalcraft.common.block.BlockStoneWorkTable;
 import com.osir.terrametalcraft.common.block.ModBlocks;
+import com.osir.terrametalcraft.common.item.ItemGun;
 import com.osir.terrametalcraft.common.item.ModItems;
 import com.osir.terrametalcraft.common.tool.ToolHammer;
 
@@ -27,17 +28,16 @@ public class RegistryHandler {
 		ModItems.grass = new ItemBase(Main.MODID, "grass", Main.GROUP_ITEM);
 		ModItems.hay = new ItemBase(Main.MODID, "hay", Main.GROUP_ITEM);
 		ModItems.toolHammer = new MaterialToolItem(Main.MODID, "hammer", Main.GROUP_ITEM, ToolHammer.INSTANCE);
+		ModItems.gun = new ItemGun();
 
 		ModBlocks.stoneWorkTable = new BlockStoneWorkTable();
 
 		SolidShape.REGISTRY.values().forEach((shape) -> {
-			if (!shape.isEmpty()) {
-				Material.REGISTRY.values().forEach((material) -> {
-					if (!material.isEmpty() && shape.generateMaterial(material)) {
-						new MaterialItem(Main.MODID, shape, material);
-					}
-				});
-			}
+			Material.REGISTRY.values().forEach((material) -> {
+				if (shape.generateMaterial(material)) {
+					new MaterialItem(Main.MODID, shape, material);
+				}
+			});
 		});
 	}
 

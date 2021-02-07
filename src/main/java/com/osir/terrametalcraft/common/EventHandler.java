@@ -1,5 +1,6 @@
 package com.osir.terrametalcraft.common;
 
+import com.osir.terrametalcraft.Main;
 import com.osir.terrametalcraft.api.capability.CapabilityCarving;
 import com.osir.terrametalcraft.api.capability.ICarving;
 import com.osir.terrametalcraft.api.capability.ModCapabilities;
@@ -16,10 +17,13 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
+@Mod.EventBusSubscriber(modid = Main.MODID, bus = Bus.FORGE)
 public class EventHandler {
 	@SubscribeEvent
-	public void attachItemCapability(AttachCapabilitiesEvent<ItemStack> event) {
+	public static void attachItemCapability(AttachCapabilitiesEvent<ItemStack> event) {
 		ItemStack stack = event.getObject();
 		Item item = stack.getItem();
 		if (!stack.getCapability(ModCapabilities.CARVING).isPresent() && (item == ModItems.chippedFlint
@@ -30,7 +34,7 @@ public class EventHandler {
 
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
-	public void addItemTooltip(ItemTooltipEvent e) {
+	public static void addItemTooltip(ItemTooltipEvent e) {
 		ItemStack stack = e.getItemStack();
 		LazyOptional<ICarving> optional = stack.getCapability(ModCapabilities.CARVING);
 		if (optional.isPresent() && !optional.orElse(null).isEmpty()) {
