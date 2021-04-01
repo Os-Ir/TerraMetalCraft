@@ -1,4 +1,4 @@
-package com.osir.terrametalcraft.common.tool;
+package com.osir.terrametalcraft.api.tool;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,17 +8,15 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.github.zi_jing.cuckoolib.material.ModMaterials;
 import com.github.zi_jing.cuckoolib.material.type.Material;
 import com.github.zi_jing.cuckoolib.tool.ToolBase;
-import com.github.zi_jing.cuckoolib.tool.ToolUtil;
 import com.osir.terrametalcraft.Main;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.ToolType;
 
-public class ToolHammer extends ToolBase {
-	public static final ResourceLocation REGISTRY_NAME = new ResourceLocation(Main.MODID, "hammer");
+public class ToolChisel extends ToolBase {
+	public static final ResourceLocation REGISTRY_NAME = new ResourceLocation(Main.MODID, "chisel");
 
-	public static final ToolHammer INSTANCE = new ToolHammer();
+	public static final ToolChisel INSTANCE = new ToolChisel();
 
 	@Override
 	public ResourceLocation getRegistryName() {
@@ -27,11 +25,7 @@ public class ToolHammer extends ToolBase {
 
 	@Override
 	public boolean canHarvestBlock(BlockState state) {
-		ToolType tool = state.getHarvestTool();
-		if (tool != null && (tool.getName().equals("pickage") || tool.getName().equals("hammer"))) {
-			return true;
-		}
-		return ToolUtil.canPickaxeHarvest(state.getMaterial());
+		return false;
 	}
 
 	@Override

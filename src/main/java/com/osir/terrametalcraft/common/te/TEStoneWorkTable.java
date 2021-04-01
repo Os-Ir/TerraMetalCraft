@@ -33,10 +33,12 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -45,7 +47,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class TEStoneWorkTable extends SyncedTE implements IModularGuiHolder, IPlanInfoTileEntity {
+public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, IModularGuiHolder, IPlanInfoTileEntity {
 	public static final TileEntityType<TEStoneWorkTable> TYPE = TileEntityType.Builder
 			.create(() -> new TEStoneWorkTable(), ModBlocks.stoneWorkTable).build(null);
 
@@ -64,13 +66,15 @@ public class TEStoneWorkTable extends SyncedTE implements IModularGuiHolder, IPl
 	private ItemStackHandler inventory;
 	private int plan;
 
+	private boolean slotUpdate;
+
 	public TEStoneWorkTable() {
 		super(TYPE);
 		this.inventory = new ItemStackHandler(2) {
 			@Override
 			protected void onContentsChanged(int slot) {
 				if (!TEStoneWorkTable.this.world.isRemote && slot == 0) {
-					TEStoneWorkTable.this.setPlan(-1);
+					TEStoneWorkTable.this.slotUpdate = true;
 				}
 			}
 		};
@@ -93,6 +97,14 @@ public class TEStoneWorkTable extends SyncedTE implements IModularGuiHolder, IPl
 			CACHE_RECIPE.put(item, recipes);
 		}
 		return recipes;
+	}
+
+	@Override
+	public void tick() {
+		if (this.slotUpdate) {
+			this.slotUpdate = false;
+			this.setPlan(-1);
+		}
 	}
 
 	private void onStoneWork(ButtonClickData clickData, ModularContainer container) {
@@ -119,8 +131,7 @@ public class TEStoneWorkTable extends SyncedTE implements IModularGuiHolder, IPl
 					}
 				}
 				if (this.checkRecipe()) {
-					this.inventory.setStackInSlot(1, getRecipe(this.inventory.getStackInSlot(0)).get(this.plan)
-							.getOutputs().get(0).getItemStack().copy());
+					this.setOutputStack();
 					this.inventory.setStackInSlot(0, ItemStack.EMPTY);
 				}
 				if (this.world != null) {
@@ -217,6 +228,15 @@ public class TEStoneWorkTable extends SyncedTE implements IModularGuiHolder, IPl
 		return true;
 	}
 
+	private void setOutputStack() {
+		ItemStack result = this.inventory.insertItem(1,
+				getRecipe(this.inventory.getStackInSlot(0)).get(this.plan).getOutputs().get(0).getItemStack().copy(),
+				false);
+		if (!result.isEmpty()) {
+			InventoryHelper.spawnItemStack(this.world, this.pos.getX(), this.pos.getY(), this.pos.getZ(), result);
+		}
+	}
+
 	@Override
 	public int getPlanCount() {
 		return getRecipe(this.inventory.getStackInSlot(0)).size();
@@ -240,8 +260,7 @@ public class TEStoneWorkTable extends SyncedTE implements IModularGuiHolder, IPl
 		}
 		this.setPlan(count);
 		if (this.checkRecipe()) {
-			this.inventory.setStackInSlot(1, getRecipe(this.inventory.getStackInSlot(0)).get(this.plan).getOutputs()
-					.get(0).getItemStack().copy());
+			this.setOutputStack();
 			this.inventory.setStackInSlot(0, ItemStack.EMPTY);
 		}
 	}
@@ -264,10 +283,11 @@ public class TEStoneWorkTable extends SyncedTE implements IModularGuiHolder, IPl
 	@Override
 	public ModularGuiInfo createGuiInfo(PlayerEntity player) {
 		return ModularGuiInfo.builder(176, 216).setBackground(BACKGROUND).addPlayerInventory(player.inventory, 8, 134)
-				.addWidget(new SlotWidget(153, 7, this.inventory, 0))
-				.addWidget(new SlotWidget(153, 101, this.inventory, 1, false, true))
-				.addWidget(new ButtonWidget(0, 6, 6, 112, 112, this::onStoneWork).setRenderer(this::renderWorkButton))
-				.addWidget(new ButtonWidget(1, 133, 7, 16, 16, this::openPlanGui)
+				.addWidget(0, new SlotWidget(153, 7, this.inventory, 0))
+				.addWidget(1, new SlotWidget(153, 101, this.inventory, 1, false, true))
+				.addWidget(2,
+						new ButtonWidget(0, 6, 6, 112, 112, this::onStoneWork).setRenderer(this::renderWorkButton))
+				.addWidget(3, new ButtonWidget(1, 133, 7, 16, 16, this::openPlanGui)
 						.setRenderer((transform, x, y, width, height) -> {
 							if (this.plan >= 0) {
 								List<Recipe> recipes = getRecipe(this.inventory.getStackInSlot(0));
@@ -283,14 +303,18 @@ public class TEStoneWorkTable extends SyncedTE implements IModularGuiHolder, IPl
 	@Override
 	public CompoundNBT write(CompoundNBT nbt) {
 		nbt.put("inventory", this.inventory.serializeNBT());
-		nbt.putInt("plan", this.plan);
+		if (this.plan >= 0) {
+			nbt.putInt("plan", this.plan);
+		}
 		return super.write(nbt);
 	}
 
 	@Override
 	public void read(BlockState state, CompoundNBT nbt) {
 		this.inventory.deserializeNBT(nbt.getCompound("inventory"));
-		this.plan = nbt.getInt("plan");
+		if (nbt.contains("plan")) {
+			this.plan = nbt.getInt("plan");
+		}
 		super.read(state, nbt);
 	}
 

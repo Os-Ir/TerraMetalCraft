@@ -13,7 +13,13 @@ public class ModItems {
 	public static Item grindedFlint;
 	public static Item grass;
 	public static Item hay;
+	public static Item leaves;
+	public static Item thinStrawRope;
+	public static Item smallCrucible;
+
 	public static Item gun;
 
 	public static MaterialToolItem toolHammer;
+	public static MaterialToolItem toolChisel;
+	public static MaterialToolItem toolKnife;
 }

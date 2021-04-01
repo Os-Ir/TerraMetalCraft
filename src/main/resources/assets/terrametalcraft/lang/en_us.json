@@ -10,12 +10,19 @@
 	"item.terrametalcraft.grinded_flint": "Grinded Flint",
 	"item.terrametalcraft.grass": "Grass",
 	"item.terrametalcraft.hay": "Hay",
+	"item.terrametalcraft.leaves": "Leaves",
+	"item.terrametalcraft.thin_straw_rope": "Thin Straw Rope",
+	"item.terrametalcraft.small_crucible": "Small Crucible",
 
 	"item.terrametalcraft.hammer": "Hammer",
+	"item.terrametalcraft.chisel": "Chisel",
+	"item.terrametalcraft.knife": "Knife",
 
 	"block.terrametalcraft.stone_work_table": "Stone Work Table",
+	"block.terrametalcraft.grindstone": "Grindstone",
 	
 	"modulargui.stone_work_table.name": "Stone Work Table",
+	"modulargui.grindstone.name": "Grindstone",
 
 	"cuckoolib.item.tool.head": "Head",
 	"cuckoolib.item.tool.handle": "Handle",

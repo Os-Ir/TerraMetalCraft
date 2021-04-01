@@ -9,4 +9,5 @@ public class ModBlocks {
 	public static final List<Block> REGISTERED_BLOCK = new ArrayList<Block>();
 
 	public static Block stoneWorkTable;
+	public static Block grindstone;
 }

@@ -1,10 +1,12 @@
 package com.osir.terrametalcraft.common;
 
-import com.github.zi_jing.cuckoolib.tag.ModBlockTagsProvider;
-import com.github.zi_jing.cuckoolib.tag.ModItemTagsProvider;
+import com.github.zi_jing.cuckoolib.data.ModBlockTagsProvider;
+import com.github.zi_jing.cuckoolib.data.ModItemTagsProvider;
 import com.osir.terrametalcraft.Main;
 import com.osir.terrametalcraft.common.block.ModBlocks;
+import com.osir.terrametalcraft.common.te.TEGrindstone;
 import com.osir.terrametalcraft.common.te.TEStoneWorkTable;
+import com.osir.terrametalcraft.data.ModRecipesProvider;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.BlockTagsProvider;
@@ -27,7 +29,8 @@ public class RegisterEventHandler {
 	@SubscribeEvent
 	public static void registerTileEntity(RegistryEvent.Register<TileEntityType<?>> event) {
 		TEStoneWorkTable.TYPE.setRegistryName(Main.MODID, "stone_work_table");
-		event.getRegistry().registerAll(TEStoneWorkTable.TYPE);
+		TEGrindstone.TYPE.setRegistryName(Main.MODID, "grindstone");
+		event.getRegistry().registerAll(TEStoneWorkTable.TYPE, TEGrindstone.TYPE);
 	}
 
 	@SubscribeEvent
@@ -38,6 +41,7 @@ public class RegisterEventHandler {
 			BlockTagsProvider providerBlock = new ModBlockTagsProvider(gen, Main.MODID, helper);
 			gen.addProvider(providerBlock);
 			gen.addProvider(new ModItemTagsProvider(gen, providerBlock, Main.MODID, helper));
+			gen.addProvider(new ModRecipesProvider(gen));
 		}
 	}
 }

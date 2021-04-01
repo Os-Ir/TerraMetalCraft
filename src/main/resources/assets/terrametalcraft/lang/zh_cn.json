@@ -10,12 +10,19 @@
 	"item.terrametalcraft.grinded_flint": "磨制燧石",
 	"item.terrametalcraft.grass": "草",
 	"item.terrametalcraft.hay": "干草",
+	"item.terrametalcraft.leaves": "树叶",
+	"item.terrametalcraft.thin_straw_rope": "细草绳",
+	"item.terrametalcraft.small_crucible": "小型坩埚",
 
 	"item.terrametalcraft.hammer": "锤",
+	"item.terrametalcraft.chisel": "凿子",
+	"item.terrametalcraft.knife": "刀",
 
 	"block.terrametalcraft.stone_work_table": "石器加工台",
+	"block.terrametalcraft.grindstone": "研磨石",
 
 	"modulargui.stone_work_table.name": "石器加工台",
+	"modulargui.grindstone.name": "研磨石",
 
 	"cuckoolib.item.tool.head": "头部",
 	"cuckoolib.item.tool.handle": "手柄",
