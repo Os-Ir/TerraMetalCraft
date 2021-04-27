@@ -64,7 +64,10 @@ public class CapabilityCarving implements ICarving, ICapabilitySerializable<Comp
 
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-		return LazyOptional.of(() -> (T) this);
+		if (cap == ModCapabilities.CARVING) {
+			return LazyOptional.of(() -> (T) this);
+		}
+		return LazyOptional.empty();
 	}
 
 	@Override

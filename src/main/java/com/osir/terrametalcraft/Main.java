@@ -6,15 +6,18 @@ import org.apache.logging.log4j.Logger;
 import com.osir.terrametalcraft.common.RegistryHandler;
 import com.osir.terrametalcraft.common.item.ModItems;
 import com.osir.terrametalcraft.common.recipe.RecipeHandler;
+import com.osir.terrametalcraft.common.world.feature.ModFeatures;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod(Main.MODID)
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Bus.MOD)
@@ -41,6 +44,8 @@ public class Main {
 
 	public Main() {
 		RegistryHandler.setupItem();
+		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+		ModFeatures.FEATURES.register(bus);
 	}
 
 	public static Logger getLogger() {
@@ -52,6 +57,7 @@ public class Main {
 		RegistryHandler.registerTool();
 		RegistryHandler.registerCapability();
 		RecipeHandler.register();
+		ModFeatures.init();
 	}
 
 	@SubscribeEvent

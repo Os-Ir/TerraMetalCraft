@@ -5,7 +5,7 @@ import java.util.Map;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.github.zi_jing.cuckoolib.item.MaterialToolItem;
-import com.github.zi_jing.cuckoolib.material.type.Material;
+import com.github.zi_jing.cuckoolib.material.type.MaterialBase;
 import com.github.zi_jing.cuckoolib.tool.IToolInfo;
 
 import net.minecraft.item.ItemStack;
@@ -17,5 +17,5 @@ public interface IGrindstoneTool extends IToolInfo {
 
 	boolean matches(ItemStack[] parts);
 
-	Map<Integer, Pair<String, Material>> getMaterial(ItemStack[] parts);
+	Map<Integer, Pair<String, MaterialBase>> getMaterial(ItemStack[] parts);
 }

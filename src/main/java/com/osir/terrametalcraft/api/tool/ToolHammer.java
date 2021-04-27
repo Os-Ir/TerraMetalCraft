@@ -9,7 +9,7 @@ import com.github.zi_jing.cuckoolib.item.MaterialToolItem;
 import com.github.zi_jing.cuckoolib.material.MaterialUtil;
 import com.github.zi_jing.cuckoolib.material.ModMaterials;
 import com.github.zi_jing.cuckoolib.material.ModSolidShapes;
-import com.github.zi_jing.cuckoolib.material.type.Material;
+import com.github.zi_jing.cuckoolib.material.type.MaterialBase;
 import com.github.zi_jing.cuckoolib.tool.ToolBase;
 import com.github.zi_jing.cuckoolib.tool.ToolUtil;
 import com.osir.terrametalcraft.Main;
@@ -19,6 +19,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ToolType;
 
@@ -42,8 +43,8 @@ public class ToolHammer extends ToolBase implements IGrindstoneTool {
 	}
 
 	@Override
-	public Map<Integer, Pair<String, Material>> getDefaultMaterial() {
-		Map<Integer, Pair<String, Material>> map = new HashMap<Integer, Pair<String, Material>>();
+	public Map<Integer, Pair<String, MaterialBase>> getDefaultMaterial() {
+		Map<Integer, Pair<String, MaterialBase>> map = new HashMap<Integer, Pair<String, MaterialBase>>();
 		map.put(0, Pair.of("head", ModMaterials.IRON));
 		map.put(1, Pair.of("handle", ModMaterials.WOOD));
 		return map;
@@ -69,7 +70,16 @@ public class ToolHammer extends ToolBase implements IGrindstoneTool {
 	}
 
 	@Override
-	public Map<Integer, Pair<String, Material>> getMaterial(ItemStack[] parts) {
-		return this.getDefaultMaterial();
+	public Map<Integer, Pair<String, MaterialBase>> getMaterial(ItemStack[] parts) {
+		Map<Integer, Pair<String, MaterialBase>> map = new HashMap<Integer, Pair<String, MaterialBase>>();
+		Item item1 = parts[0].getItem();
+		for (MaterialBase material : MaterialBase.REGISTRY.values()) {
+			ITag<Item> tag = MaterialUtil.getMaterialTag(ModSolidShapes.HAMMER_HEAD, material);
+			if (tag != null && tag.contains(item1)) {
+				map.put(0, Pair.of("head", material));
+			}
+		}
+		map.put(1, Pair.of("handle", ModMaterials.WOOD));
+		return map;
 	}
 }

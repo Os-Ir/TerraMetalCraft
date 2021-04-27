@@ -5,22 +5,30 @@ import com.github.zi_jing.cuckoolib.item.ItemBase;
 import com.github.zi_jing.cuckoolib.item.MaterialItem;
 import com.github.zi_jing.cuckoolib.item.MaterialToolItem;
 import com.github.zi_jing.cuckoolib.material.SolidShape;
-import com.github.zi_jing.cuckoolib.material.type.Material;
+import com.github.zi_jing.cuckoolib.material.type.MaterialBase;
 import com.osir.terrametalcraft.Main;
 import com.osir.terrametalcraft.api.ModRegistries;
 import com.osir.terrametalcraft.api.capability.CapabilityCarving;
+import com.osir.terrametalcraft.api.capability.CapabilityHeatable;
 import com.osir.terrametalcraft.api.capability.ICarving;
+import com.osir.terrametalcraft.api.capability.IHeatable;
 import com.osir.terrametalcraft.api.capability.ModCapabilities;
 import com.osir.terrametalcraft.api.capability.StorageCarving;
+import com.osir.terrametalcraft.api.capability.StorageHeatable;
 import com.osir.terrametalcraft.api.tool.ToolChisel;
 import com.osir.terrametalcraft.api.tool.ToolHammer;
 import com.osir.terrametalcraft.api.tool.ToolKnife;
+import com.osir.terrametalcraft.common.block.BlockCoverItem;
 import com.osir.terrametalcraft.common.block.BlockGrindstone;
 import com.osir.terrametalcraft.common.block.BlockStoneWorkTable;
 import com.osir.terrametalcraft.common.block.ModBlocks;
 import com.osir.terrametalcraft.common.item.ItemGun;
 import com.osir.terrametalcraft.common.item.ModItems;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 
 public class RegistryHandler {
@@ -43,11 +51,18 @@ public class RegistryHandler {
 		ModItems.toolChisel = new MaterialToolItem(Main.MODID, "chisel", Main.GROUP_ITEM, ToolChisel.INSTANCE);
 		ModItems.toolKnife = new MaterialToolItem(Main.MODID, "knife", Main.GROUP_ITEM, ToolKnife.INSTANCE);
 
+		ModBlocks.coverItemStone = new BlockCoverItem("stone", Material.ROCK, new ItemStack(ModItems.stone),
+				Block.makeCuboidShape(1, 0, 1, 15, 2, 15));
+		ModBlocks.coverItemFlint = new BlockCoverItem("flint", Material.ROCK, new ItemStack(Items.FLINT),
+				Block.makeCuboidShape(1, 0, 1, 15, 2, 15));
+		ModBlocks.coverItemStick = new BlockCoverItem("stick", Material.WOOD, new ItemStack(Items.STICK),
+				Block.makeCuboidShape(1, 0, 1, 15, 2, 15));
+
 		ModBlocks.stoneWorkTable = new BlockStoneWorkTable();
 		ModBlocks.grindstone = new BlockGrindstone();
 
 		SolidShape.REGISTRY.values().forEach((shape) -> {
-			Material.REGISTRY.values().forEach((material) -> {
+			MaterialBase.REGISTRY.values().forEach((material) -> {
 				if (shape.generateMaterial(material)) {
 					new MaterialItem(Main.MODID, shape, material);
 				}
@@ -63,6 +78,8 @@ public class RegistryHandler {
 
 	public static void registerCapability() {
 		CapabilityManager.INSTANCE.register(ICarving.class, new StorageCarving(), CapabilityCarving::new);
+		CapabilityManager.INSTANCE.register(IHeatable.class, new StorageHeatable(), CapabilityHeatable::new);
 		CapabilityListener.register(CapabilityCarving.KEY, ModCapabilities.CARVING);
+		CapabilityListener.register(CapabilityHeatable.KEY, ModCapabilities.HEATABLE);
 	}
 }
