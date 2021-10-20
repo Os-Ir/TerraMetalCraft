@@ -17,12 +17,12 @@ public class ModFeatures {
 			Main.MODID);
 
 	public static final RegistryObject<StoneFeature> STONE_FEATURE = FEATURES.register("stone",
-			() -> new StoneFeature(NoFeatureConfig.field_236558_a_));
+			() -> new StoneFeature(NoFeatureConfig.CODEC));
 
 	public static ConfiguredFeature<NoFeatureConfig, ?> stone;
 
 	public static void init() {
 		stone = Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(Main.MODID, "stone"),
-				STONE_FEATURE.get().withConfiguration(NoFeatureConfig.NO_FEATURE_CONFIG));
+				STONE_FEATURE.get().configured(NoFeatureConfig.NONE));
 	}
 }

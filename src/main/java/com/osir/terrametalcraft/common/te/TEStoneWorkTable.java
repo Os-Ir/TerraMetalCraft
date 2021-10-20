@@ -49,7 +49,7 @@ import net.minecraftforge.items.ItemStackHandler;
 
 public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, IModularGuiHolder, IPlanInfoTileEntity {
 	public static final TileEntityType<TEStoneWorkTable> TYPE = TileEntityType.Builder
-			.create(() -> new TEStoneWorkTable(), ModBlocks.stoneWorkTable).build(null);
+			.of(() -> new TEStoneWorkTable(), ModBlocks.stoneWorkTable).build(null);
 
 	private static final TextureArea BACKGROUND = TextureArea
 			.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/stone_work_table/background.png"));
@@ -59,6 +59,7 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 			.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/stone_work_table/stone.png"));
 	private static final TextureArea STONE_SMALL = TextureArea.createTexture(
 			new ResourceLocation(Main.MODID, "textures/gui/stone_work_table/stone.png"), 0, 0, 0.125f, 0.125f);
+	private static final ITextComponent TITLE = new TranslationTextComponent("modulargui.stone_work_table.name");
 
 	private static final Cache<Item, List<Recipe>> CACHE_RECIPE = CacheBuilder.newBuilder().maximumSize(64).build();
 	private static final Cache<Item, Boolean> CACHE_BLACK_LIST = CacheBuilder.newBuilder().maximumSize(64).build();
@@ -73,7 +74,7 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 		this.inventory = new ItemStackHandler(2) {
 			@Override
 			protected void onContentsChanged(int slot) {
-				if (!TEStoneWorkTable.this.world.isRemote && slot == 0) {
+				if (!TEStoneWorkTable.this.level.isClientSide && slot == 0) {
 					TEStoneWorkTable.this.slotUpdate = true;
 				}
 			}
@@ -134,8 +135,8 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 					this.setOutputStack();
 					this.inventory.setStackInSlot(0, ItemStack.EMPTY);
 				}
-				if (this.world != null) {
-					this.world.markChunkDirty(this.pos, this);
+				if (this.level != null) {
+					this.level.blockEntityChanged(this.getBlockPos(), this);
 				}
 			}
 		}
@@ -203,7 +204,7 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 	private void setPlan(int plan) {
 		this.plan = plan;
 		this.writeCustomData(100, (buf) -> buf.writeInt(plan));
-		this.world.markChunkDirty(this.pos, this);
+		this.level.blockEntityChanged(this.getBlockPos(), this);
 	}
 
 	private boolean checkRecipe() {
@@ -233,7 +234,8 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 				getRecipe(this.inventory.getStackInSlot(0)).get(this.plan).getOutputs().get(0).getItemStack().copy(),
 				false);
 		if (!result.isEmpty()) {
-			InventoryHelper.spawnItemStack(this.world, this.pos.getX(), this.pos.getY(), this.pos.getZ(), result);
+			BlockPos pos = this.getBlockPos();
+			InventoryHelper.dropItemStack(this.level, pos.getX(), pos.getY(), pos.getZ(), result);
 		}
 	}
 
@@ -247,8 +249,8 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 		return (transform, x, y, width, height) -> {
 			List<Recipe> recipes = getRecipe(this.inventory.getStackInSlot(0));
 			if (recipes.size() > count) {
-				Minecraft.getInstance().getItemRenderer().renderItemAndEffectIntoGUI(
-						recipes.get(count).getOutputs().get(0).getItemStack(), x + 1, y + 1);
+				Minecraft.getInstance().getItemRenderer()
+						.renderAndDecorateItem(recipes.get(count).getOutputs().get(0).getItemStack(), x + 1, y + 1);
 			}
 		};
 	}
@@ -266,18 +268,13 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 	}
 
 	@Override
-	public BlockPos getBlockPos() {
-		return this.pos;
-	}
-
-	@Override
 	public IGuiHolderCodec getCodec() {
 		return TileEntityCodec.INSTANCE;
 	}
 
 	@Override
 	public ITextComponent getTitle(PlayerEntity player) {
-		return new TranslationTextComponent("modulargui.stone_work_table.name");
+		return TITLE;
 	}
 
 	@Override
@@ -292,7 +289,7 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 							if (this.plan >= 0) {
 								List<Recipe> recipes = getRecipe(this.inventory.getStackInSlot(0));
 								if (recipes.size() > this.plan) {
-									Minecraft.getInstance().getItemRenderer().renderItemAndEffectIntoGUI(
+									Minecraft.getInstance().getItemRenderer().renderAndDecorateItem(
 											recipes.get(this.plan).getOutputs().get(0).getItemStack(), x, y);
 								}
 							}
@@ -301,21 +298,22 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT nbt) {
+	public CompoundNBT serializeNBT() {
+		CompoundNBT nbt = super.serializeNBT();
 		nbt.put("inventory", this.inventory.serializeNBT());
 		if (this.plan >= 0) {
 			nbt.putInt("plan", this.plan);
 		}
-		return super.write(nbt);
+		return nbt;
 	}
 
 	@Override
-	public void read(BlockState state, CompoundNBT nbt) {
+	public void deserializeNBT(BlockState state, CompoundNBT nbt) {
 		this.inventory.deserializeNBT(nbt.getCompound("inventory"));
 		if (nbt.contains("plan")) {
 			this.plan = nbt.getInt("plan");
 		}
-		super.read(state, nbt);
+		super.deserializeNBT(state, nbt);
 	}
 
 	@Override

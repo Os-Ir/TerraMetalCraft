@@ -1,21 +1,22 @@
 package com.osir.terrametalcraft.api.capability;
 
-import com.osir.terrametalcraft.api.thermo.PhasePortrait;
+import com.osir.terrametalcraft.api.thermo.IPhasePortrait;
+import com.osir.terrametalcraft.api.thermo.ThermoUtil;
 
 public interface IHeatable {
-	PhasePortrait getPhasePortrait();
+	IPhasePortrait getPhasePortrait();
 
-	float getMoleNumber();
+	double getEnergy();
 
-	void setMoleNumber(float moleNumber);
+	void setEnergy(double energy);
 
-	float getEnergy();
+	void increaseEnergy(double energy);
 
-	void setEnergy(float energy);
+	default double getTemperature() {
+		return this.getTemperature(ThermoUtil.ATMOSPHERIC_PRESSURE);
+	}
 
-	void increaseEnergy(float energy);
-
-	default float getTemperature(float pressure) {
-		return this.getPhasePortrait().getTemperature(pressure, this.getEnergy() / this.getMoleNumber());
+	default double getTemperature(float pressure) {
+		return this.getPhasePortrait().getTemperature(pressure, this.getEnergy());
 	}
 }

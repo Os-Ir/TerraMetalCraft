@@ -2,6 +2,9 @@
 	"itemGroup.terrametalcraft_item": "群峦金属工艺 - 物品",
 	"itemGroup.terrametalcraft_equipment": "群峦金属工艺 - 设备",
 
+	"cuckoolib.tipinfo.thermo.title": "热力学信息",
+	"cuckoolib.tipinfo.thermo.temperature": "温度: ",
+
 	"item.terrametalcraft.tmc_coin": "TMC纪念币",
 	"item.terrametalcraft.stone": "石块",
 	"item.terrametalcraft.chipped_stone": "打制石块",
@@ -20,9 +23,12 @@
 
 	"block.terrametalcraft.stone_work_table": "石器加工台",
 	"block.terrametalcraft.grindstone": "研磨石",
+	"block.terrametalcraft.campfire": "篝火",
+	"block.terrametalcraft.cover_grass": "草",
 
 	"modulargui.stone_work_table.name": "石器加工台",
 	"modulargui.grindstone.name": "研磨石",
+	"modulargui.campfire.name": "篝火",
 
 	"cuckoolib.item.tool.head": "头部",
 	"cuckoolib.item.tool.handle": "手柄",

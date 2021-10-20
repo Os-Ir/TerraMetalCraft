@@ -22,26 +22,26 @@ public class StoneFeature extends Feature<NoFeatureConfig> {
 	}
 
 	@Override
-	public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos,
+	public boolean place(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos,
 			NoFeatureConfig config) {
-		BlockState stateStone = ModBlocks.coverItemStone.getDefaultState();
-		BlockState stateFlint = ModBlocks.coverItemFlint.getDefaultState();
-		BlockState stateStick = ModBlocks.coverItemStick.getDefaultState();
+		BlockState stateStone = ModBlocks.coverItemStone.defaultBlockState();
+		BlockState stateFlint = ModBlocks.coverItemFlint.defaultBlockState();
+		BlockState stateStick = ModBlocks.coverItemStick.defaultBlockState();
 		int num = rand.nextInt(3) + 3;
 		while (num-- > 0) {
 			int dx = rand.nextInt(16);
 			int dz = rand.nextInt(16);
-			BlockPos genPos = reader.getHeight(Heightmap.Type.WORLD_SURFACE, pos.add(dx, 0, dz));
+			BlockPos genPos = reader.getHeightmapPos(Heightmap.Type.WORLD_SURFACE, pos.offset(dx, 0, dz));
 			if (this.validate(reader, genPos)) {
 				switch (rand.nextInt(3)) {
 				case 0:
-					reader.setBlockState(genPos, stateStone, 2);
+					reader.setBlock(genPos, stateStone, 2);
 					break;
 				case 1:
-					reader.setBlockState(genPos, stateFlint, 2);
+					reader.setBlock(genPos, stateFlint, 2);
 					break;
 				case 2:
-					reader.setBlockState(genPos, stateStick, 2);
+					reader.setBlock(genPos, stateStick, 2);
 					break;
 				default:
 				}
@@ -52,12 +52,10 @@ public class StoneFeature extends Feature<NoFeatureConfig> {
 
 	private boolean validate(ISeedReader reader, BlockPos pos) {
 		Block block = reader.getBlockState(pos).getBlock();
-		Material materialDown = reader.getBlockState(pos.down()).getMaterial();
-		boolean flag2 = block == Blocks.GRASS || block == Blocks.STONE || block == Blocks.SAND || block == Blocks.DIRT;
-		return reader.getBlockState(pos.down()).isOpaqueCube(reader, pos)
-				&& (reader.isAirBlock(pos) || block == Blocks.SNOW || block == Blocks.GRASS
+		Material materialDown = reader.getBlockState(pos.below()).getMaterial();
+		return reader.getBlockState(pos.below()).isCollisionShapeFullBlock(reader, pos)
+				&& (reader.isEmptyBlock(pos) || block == Blocks.SNOW || block == Blocks.GRASS
 						|| block == Blocks.TALL_GRASS)
-				&& (materialDown == Material.ROCK || materialDown == Material.SAND || materialDown == Material.EARTH
-						|| materialDown == Material.ORGANIC);
+				&& (materialDown == Material.STONE || materialDown == Material.SAND || materialDown == Material.DIRT);
 	}
 }

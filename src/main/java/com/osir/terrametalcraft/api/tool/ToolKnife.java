@@ -6,13 +6,13 @@ import java.util.Map;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.github.zi_jing.cuckoolib.item.MaterialToolItem;
-import com.github.zi_jing.cuckoolib.material.MaterialUtil;
 import com.github.zi_jing.cuckoolib.material.ModMaterials;
 import com.github.zi_jing.cuckoolib.material.ModSolidShapes;
 import com.github.zi_jing.cuckoolib.material.type.MaterialBase;
 import com.github.zi_jing.cuckoolib.tool.ToolBase;
 import com.github.zi_jing.cuckoolib.tool.ToolUtil;
 import com.osir.terrametalcraft.Main;
+import com.osir.terrametalcraft.api.material.MaterialUtil;
 import com.osir.terrametalcraft.common.item.ModItems;
 
 import net.minecraft.block.BlockState;
@@ -34,7 +34,7 @@ public class ToolKnife extends ToolBase implements IGrindstoneTool {
 	}
 
 	@Override
-	public boolean canHarvestBlock(BlockState state) {
+	public boolean canHarvestBlock(ItemStack stack, BlockState state) {
 		ToolType tool = state.getHarvestTool();
 		if (tool != null && (tool.getName().equals("sword") || tool.getName().equals("knife"))) {
 			return true;

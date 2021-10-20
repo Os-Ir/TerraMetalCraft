@@ -24,20 +24,20 @@ import net.minecraft.world.World;
 
 public class BlockStoneWorkTable extends Block {
 	public BlockStoneWorkTable() {
-		super(AbstractBlock.Properties.create(Material.SAND).hardnessAndResistance(0.5f).sound(SoundType.SAND));
+		super(AbstractBlock.Properties.of(Material.SAND).strength(0.5f).sound(SoundType.SAND));
 		this.setRegistryName(Main.MODID, "stone_work_table");
 		ModBlocks.REGISTERED_BLOCK.add(this);
-		ItemBase.REGISTERED_ITEM.add(new BlockItem(this, new Item.Properties().group(Main.GROUP_EQUIPMENT))
+		ItemBase.REGISTERED_ITEM.add(new BlockItem(this, new Item.Properties().tab(Main.GROUP_EQUIPMENT))
 				.setRegistryName(Main.MODID, "stone_work_table"));
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand handIn, BlockRayTraceResult hit) {
-		if (world.isRemote) {
+		if (world.isClientSide) {
 			return ActionResultType.SUCCESS;
 		}
-		TEStoneWorkTable te = (TEStoneWorkTable) world.getTileEntity(pos);
+		TEStoneWorkTable te = (TEStoneWorkTable) world.getBlockEntity(pos);
 		ModularGuiInfo.openModularGui(te, (ServerPlayerEntity) player);
 		return ActionResultType.CONSUME;
 	}

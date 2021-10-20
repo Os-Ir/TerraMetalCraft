@@ -36,7 +36,7 @@ public abstract class SyncedTE extends TileEntity {
 		dataWriter.accept(packet);
 		this.updateData.add(Pair.of(index, Arrays.copyOfRange(packet.array(), 0, packet.writerIndex())));
 		BlockState state = this.getBlockState();
-		this.world.notifyBlockUpdate(this.getPos(), state, state, 0);
+		this.level.sendBlockUpdated(this.getBlockPos(), state, state, 0);
 	}
 
 	@Override
@@ -51,12 +51,12 @@ public abstract class SyncedTE extends TileEntity {
 		}
 		this.updateData.clear();
 		nbt.put("d", list);
-		return new SUpdateTileEntityPacket(this.getPos(), 0, nbt);
+		return new SUpdateTileEntityPacket(this.getBlockPos(), 0, nbt);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		CompoundNBT nbt = pkt.getNbtCompound();
+		CompoundNBT nbt = pkt.getTag();
 		ListNBT list = nbt.getList("d", NBT.TAG_COMPOUND);
 		for (int i = 0; i < list.size(); i++) {
 			CompoundNBT entryNBT = list.getCompound(i);
@@ -76,7 +76,6 @@ public abstract class SyncedTE extends TileEntity {
 
 	@Override
 	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-		super.handleUpdateTag(state, tag);
 		this.receiveInitData(new PacketBuffer(Unpooled.copiedBuffer(tag.getByteArray("d"))));
 	}
 }

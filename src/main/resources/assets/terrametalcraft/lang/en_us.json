@@ -2,6 +2,9 @@
 	"itemGroup.terrametalcraft_item": "TerraMetalCraft - Item",
 	"itemGroup.terrametalcraft_equipment": "TerraMetalCraft - Equipment",
 
+	"cuckoolib.tipinfo.thermo.title": "Thermo Information",
+	"cuckoolib.tipinfo.thermo.temperature": "Temperature: ",
+
 	"item.terrametalcraft.tmc_coin": "TMC Coin",
 	"item.terrametalcraft.stone": "Stone",
 	"item.terrametalcraft.chipped_stone": "Chipped Stone",
@@ -20,9 +23,12 @@
 
 	"block.terrametalcraft.stone_work_table": "Stone Work Table",
 	"block.terrametalcraft.grindstone": "Grindstone",
+	"block.terrametalcraft.campfire": "Campfire",
+	"block.terrametalcraft.cover_grass": "Grass",
 	
 	"modulargui.stone_work_table.name": "Stone Work Table",
 	"modulargui.grindstone.name": "Grindstone",
+	"modulargui.campfire.name": "Campfire",
 
 	"cuckoolib.item.tool.head": "Head",
 	"cuckoolib.item.tool.handle": "Handle",

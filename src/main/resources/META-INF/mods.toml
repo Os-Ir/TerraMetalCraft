@@ -16,7 +16,7 @@ issueTrackerURL="https://github.com/Os-Ir/TerraMetalCraft/issues"
   [[dependencies.terrametalcraft]]
     modId="forge"
     mandatory=true
-    versionRange="[35.1.4,)"
+    versionRange="[33,)"
     ordering="NONE"
     side="BOTH"
 

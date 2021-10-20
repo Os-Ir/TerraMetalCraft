@@ -1,12 +1,12 @@
 package com.osir.terrametalcraft.common.recipe;
 
-import com.github.zi_jing.cuckoolib.material.MaterialUtil;
 import com.github.zi_jing.cuckoolib.material.ModMaterials;
 import com.github.zi_jing.cuckoolib.material.ModSolidShapes;
 import com.github.zi_jing.cuckoolib.recipe.IRecipeProperty;
 import com.github.zi_jing.cuckoolib.recipe.NormalReicpeProperty;
 import com.github.zi_jing.cuckoolib.recipe.RecipeMap;
 import com.osir.terrametalcraft.Main;
+import com.osir.terrametalcraft.api.material.MaterialUtil;
 import com.osir.terrametalcraft.common.item.ModItems;
 
 import net.minecraft.item.ItemStack;

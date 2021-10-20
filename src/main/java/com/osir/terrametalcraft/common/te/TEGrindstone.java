@@ -2,6 +2,7 @@ package com.osir.terrametalcraft.common.te;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import com.github.zi_jing.cuckoolib.client.gui.ModularScreen;
 import com.github.zi_jing.cuckoolib.client.render.IWidgetRenderer;
 import com.github.zi_jing.cuckoolib.client.render.TextureArea;
 import com.github.zi_jing.cuckoolib.gui.IGuiHolderCodec;
@@ -31,14 +32,17 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class TEGrindstone extends SyncedTE implements ITickableTileEntity, IModularGuiHolder {
 	public static final TileEntityType<TEGrindstone> TYPE = TileEntityType.Builder
-			.create(() -> new TEGrindstone(), ModBlocks.grindstone).build(null);
+			.of(() -> new TEGrindstone(), ModBlocks.grindstone).build(null);
 
 	private static final TextureArea BACKGROUND = TextureArea
 			.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/grindstone/background.png"));
@@ -46,6 +50,7 @@ public class TEGrindstone extends SyncedTE implements ITickableTileEntity, IModu
 			.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/grindstone/button.png"));
 	private static final TextureArea BUTTON_ACTIVATED = TextureArea
 			.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/grindstone/button_activated.png"));
+	private static final ITextComponent TITLE = new TranslationTextComponent("modulargui.grindstone.name");
 
 	private ItemStackHandler inventory;
 	private IGrindstoneTool plan;
@@ -59,7 +64,7 @@ public class TEGrindstone extends SyncedTE implements ITickableTileEntity, IModu
 		this.inventory = new ItemStackHandler(6) {
 			@Override
 			protected void onContentsChanged(int slot) {
-				if (!TEGrindstone.this.world.isRemote && slot < 5) {
+				if (!TEGrindstone.this.level.isClientSide && slot < 5) {
 					TEGrindstone.this.slotUpdate = true;
 				}
 			}
@@ -129,14 +134,15 @@ public class TEGrindstone extends SyncedTE implements ITickableTileEntity, IModu
 				buf.writeResourceLocation(plan.getRegistryName());
 			});
 		}
-		this.world.markChunkDirty(this.pos, this);
+		this.level.blockEntityChanged(this.getBlockPos(), this);
 	}
 
 	private void setOutputStack(ItemStack[] parts) {
 		ItemStack result = this.inventory.insertItem(5,
 				this.plan.getToolItem(parts).createItemStack(1, this.plan.getMaterial(parts)), false);
 		if (!result.isEmpty()) {
-			InventoryHelper.spawnItemStack(this.world, this.pos.getX(), this.pos.getY(), this.pos.getZ(), result);
+			BlockPos pos = this.getBlockPos();
+			InventoryHelper.dropItemStack(this.level, pos.getX(), pos.getY(), pos.getZ(), result);
 		}
 	}
 
@@ -178,7 +184,7 @@ public class TEGrindstone extends SyncedTE implements ITickableTileEntity, IModu
 
 	@Override
 	public ITextComponent getTitle(PlayerEntity player) {
-		return new TranslationTextComponent("modulargui.grindstone.name");
+		return TITLE;
 	}
 
 	@Override
@@ -225,27 +231,22 @@ public class TEGrindstone extends SyncedTE implements ITickableTileEntity, IModu
 	}
 
 	@Override
-	public int[] getTasksToExecute(ModularContainer container) {
-		return new int[] { 100 };
-	}
-
-	@Override
-	public void executeTask(ModularContainer container, int id) {
-		if (id == 100) {
-			VariableListWidget listWidget = ((VariableListWidget) container.getGuiInfo().getWidget(6));
-			int length = this.order.length;
-			for (int i = 0; i < 10; i++) {
-				if (i < length) {
-					listWidget.getWidget(i).setEnable(true);
-				} else {
-					listWidget.getWidget(i).setEnable(false);
-				}
+	@OnlyIn(Dist.CLIENT)
+	public void executeRenderTask(ModularScreen screen) {
+		VariableListWidget listWidget = ((VariableListWidget) screen.getGuiInfo().getWidget(6));
+		int length = this.order.length;
+		for (int i = 0; i < 10; i++) {
+			if (i < length) {
+				listWidget.getWidget(i).setEnable(true);
+			} else {
+				listWidget.getWidget(i).setEnable(false);
 			}
 		}
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT nbt) {
+	public CompoundNBT serializeNBT() {
+		CompoundNBT nbt = super.serializeNBT();
 		nbt.put("inventory", this.inventory.serializeNBT());
 		if (this.plan != null) {
 			nbt.putString("plan", this.plan.getRegistryName().toString());
@@ -254,11 +255,11 @@ public class TEGrindstone extends SyncedTE implements ITickableTileEntity, IModu
 			nbt.putIntArray("order", this.order);
 		}
 		nbt.putInt("progress", this.progress);
-		return super.write(nbt);
+		return nbt;
 	}
 
 	@Override
-	public void read(BlockState state, CompoundNBT nbt) {
+	public void deserializeNBT(BlockState state, CompoundNBT nbt) {
 		this.inventory.deserializeNBT(nbt.getCompound("inventory"));
 		if (nbt.contains("plan")) {
 			this.plan = (IGrindstoneTool) ModRegistries.REGISTRY_TOOL
@@ -268,7 +269,7 @@ public class TEGrindstone extends SyncedTE implements ITickableTileEntity, IModu
 			this.order = nbt.getIntArray("order");
 		}
 		this.progress = nbt.getInt("progress");
-		super.read(state, nbt);
+		super.deserializeNBT(state, nbt);
 	}
 
 	@Override

@@ -12,6 +12,9 @@ public class ModBlocks {
 	public static Block coverItemFlint;
 	public static Block coverItemStick;
 
+	public static Block coverGrass;
+
 	public static Block stoneWorkTable;
 	public static Block grindstone;
+	public static Block campfire;
 }

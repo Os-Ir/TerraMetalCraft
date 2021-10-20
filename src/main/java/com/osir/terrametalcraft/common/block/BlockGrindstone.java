@@ -25,13 +25,14 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 public class BlockGrindstone extends Block {
-	private static final VoxelShape SHAPE = Block.makeCuboidShape(2, 0, 2, 14, 6, 14);
+	private static final VoxelShape SHAPE = Block.box(2, 0, 2, 14, 6, 14);
 
 	public BlockGrindstone() {
-		super(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(1.5f, 6).sound(SoundType.STONE));
+		super(AbstractBlock.Properties.of(Material.STONE).strength(1.5f, 6).sound(SoundType.STONE)
+				.noOcclusion());
 		this.setRegistryName(Main.MODID, "grindstone");
 		ModBlocks.REGISTERED_BLOCK.add(this);
-		ItemBase.REGISTERED_ITEM.add(new BlockItem(this, new Item.Properties().group(Main.GROUP_EQUIPMENT))
+		ItemBase.REGISTERED_ITEM.add(new BlockItem(this, new Item.Properties().tab(Main.GROUP_EQUIPMENT))
 				.setRegistryName(Main.MODID, "grindstone"));
 	}
 
@@ -41,12 +42,12 @@ public class BlockGrindstone extends Block {
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand handIn, BlockRayTraceResult hit) {
-		if (world.isRemote) {
+		if (world.isClientSide) {
 			return ActionResultType.SUCCESS;
 		}
-		TEGrindstone te = (TEGrindstone) world.getTileEntity(pos);
+		TEGrindstone te = (TEGrindstone) world.getBlockEntity(pos);
 		ModularGuiInfo.openModularGui(te, (ServerPlayerEntity) player);
 		return ActionResultType.CONSUME;
 	}

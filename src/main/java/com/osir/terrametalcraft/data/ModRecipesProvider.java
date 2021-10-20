@@ -2,13 +2,13 @@ package com.osir.terrametalcraft.data;
 
 import java.util.function.Consumer;
 
-import com.github.zi_jing.cuckoolib.material.MaterialUtil;
 import com.github.zi_jing.cuckoolib.material.ModMaterials;
 import com.github.zi_jing.cuckoolib.material.ModSolidShapes;
 import com.github.zi_jing.cuckoolib.recipe.IngredientIndex;
 import com.github.zi_jing.cuckoolib.recipe.data.DataRecipeBuilder;
 import com.github.zi_jing.cuckoolib.recipe.data.OutputItem;
 import com.osir.terrametalcraft.Main;
+import com.osir.terrametalcraft.api.material.MaterialUtil;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
@@ -23,7 +23,7 @@ public class ModRecipesProvider extends RecipeProvider {
 	}
 
 	@Override
-	protected void registerRecipes(Consumer<IFinishedRecipe> out) {
+	protected void buildShapelessRecipes(Consumer<IFinishedRecipe> out) {
 		DataRecipeBuilder.builder()
 				.input(IngredientIndex.from(MaterialUtil.getMaterialTag(ModSolidShapes.DUST, ModMaterials.IRON), 2))
 				.input(IngredientIndex.from(new ItemStack(Items.IRON_INGOT, 4)))

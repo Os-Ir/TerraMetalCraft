@@ -8,8 +8,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.github.zi_jing.cuckoolib.util.data.ContinuousMap;
 
 public abstract class PhasePortrait {
-	public static final PhasePortrait SIMPLE_SOLID = getSimplified(
-			SubPhasePortrait.getSimplified(Phase.SOLID, ThermoUtil.UNIVERSAL_GAS_CONSTANT));
+	public static final PhasePortrait SIMPLE_SOLID = getSimplified(SubPhasePortrait.getSimplified(Phase.SOLID, 3200));
 
 	public abstract SubPhasePortrait getSubPhasePortrait(float pressure);
 

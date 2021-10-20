@@ -22,4 +22,5 @@ public class ModItems {
 	public static MaterialToolItem toolHammer;
 	public static MaterialToolItem toolChisel;
 	public static MaterialToolItem toolKnife;
+	public static MaterialToolItem toolJavelin;
 }

@@ -18,25 +18,25 @@ public class ItemGun extends ItemBase {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-		Vector3d vec = player.getLookVec();
+	public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+		Vector3d vec = player.getLookAngle();
 		BulletEntity bullet = new BulletEntity(world, player);
 		bullet.shoot(vec.x, vec.y, vec.z, 10, 0);
-		world.addEntity(bullet);
-		return ActionResult.resultSuccess(player.getHeldItem(hand));
+		world.addFreshEntity(bullet);
+		return ActionResult.success(player.getItemInHand(hand));
 	}
 
 	public static class BulletEntity extends ArrowEntity {
 		public BulletEntity(World world, LivingEntity shooter) {
 			super(world, shooter);
-			this.setDamage(10);
+			this.setBaseDamage(10);
 		}
 
 		public void tick() {
 			super.tick();
-			if (!this.world.isRemote) {
-				if (this.inGround || this.ticksExisted > 40) {
-					this.setDead();
+			if (!this.level.isClientSide) {
+				if (this.inGround || this.tickCount > 40) {
+					this.remove();
 				}
 			}
 		}
