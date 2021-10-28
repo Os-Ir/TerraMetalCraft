@@ -56,16 +56,14 @@ public class ToolJavelin extends ToolBase implements IGrindstoneTool {
 
 	@Override
 	public MaterialToolItem getToolItem(ItemStack[] parts) {
-		return ModItems.toolJavelin;
+		return ModItems.JAVELIN;
 	}
 
 	@Override
 	public boolean matches(ItemStack[] parts) {
 		Item item2 = parts[1].getItem();
 		Item item3 = parts[2].getItem();
-		return MaterialUtil.getMaterialTag(ModSolidShapes.JAVELIN_HEAD).contains(parts[0].getItem())
-				&& (item2 == Items.STRING || item2 == ModItems.thinStrawRope) && (item3 == Items.STICK)
-				&& parts[3].isEmpty() && parts[4].isEmpty();
+		return MaterialUtil.getMaterialTag(ModSolidShapes.JAVELIN_HEAD).contains(parts[0].getItem()) && (item2 == Items.STRING || item2 == ModItems.THIN_STRAW_ROPE) && (item3 == Items.STICK) && parts[3].isEmpty() && parts[4].isEmpty();
 	}
 
 	@Override
@@ -87,7 +85,6 @@ public class ToolJavelin extends ToolBase implements IGrindstoneTool {
 		if (entityLiving instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) entityLiving;
 			float velocity = Math.min((72000 - timeLeft), 40) * 0.04f;
-			System.out.println(velocity);
 			if (!world.isClientSide && velocity >= 0.1f) {
 				ArrowEntity arrow = new ArrowEntity(world, player);
 				arrow.setBaseDamage(4);

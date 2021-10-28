@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 
 public class ItemGun extends ItemBase {
 	public ItemGun() {
-		super(Main.MODID, "gun", Main.GROUP_ITEM);
+		super(Main.GROUP_ITEM);
 	}
 
 	@Override

@@ -5,17 +5,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.github.zi_jing.cuckoolib.CuckooLib;
-import com.github.zi_jing.cuckoolib.item.ItemBase;
 import com.github.zi_jing.cuckoolib.material.MaterialEntry;
 import com.github.zi_jing.cuckoolib.material.SolidShape;
 import com.github.zi_jing.cuckoolib.material.type.MaterialBase;
 import com.osir.terrametalcraft.Main;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
-public class MaterialItem extends ItemBase {
+public class MaterialItem extends Item {
 	public static final Map<MaterialEntry, MaterialItem> REGISTERED_MATERIAL_ITEM = new HashMap<MaterialEntry, MaterialItem>();
 
 	public static final Comparator<MaterialItem> COMPARATOR = (itemA, itemB) -> {
@@ -30,8 +30,8 @@ public class MaterialItem extends ItemBase {
 	protected MaterialBase material;
 
 	public MaterialItem(SolidShape shape, MaterialBase material) {
-		super(Main.MODID, "material_item." + shape.getName() + "." + material.getName(), new Properties(),
-				CuckooLib.GROUP_MATERIAL, false);
+		super(new Properties().tab(CuckooLib.GROUP_MATERIAL));
+		this.setRegistryName(Main.MODID, "material_item." + shape.getName() + "." + material.getName());
 		this.shape = shape;
 		this.material = material;
 		REGISTERED_MATERIAL_ITEM.put(new MaterialEntry(shape, material), this);

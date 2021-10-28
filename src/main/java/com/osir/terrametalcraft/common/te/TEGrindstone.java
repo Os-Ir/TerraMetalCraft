@@ -41,15 +41,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class TEGrindstone extends SyncedTE implements ITickableTileEntity, IModularGuiHolder {
-	public static final TileEntityType<TEGrindstone> TYPE = TileEntityType.Builder
-			.of(() -> new TEGrindstone(), ModBlocks.grindstone).build(null);
+	public static final TileEntityType<TEGrindstone> TYPE = TileEntityType.Builder.of(() -> new TEGrindstone(), ModBlocks.GRINDSTONE).build(null);
 
-	private static final TextureArea BACKGROUND = TextureArea
-			.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/grindstone/background.png"));
-	private static final TextureArea BUTTON = TextureArea
-			.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/grindstone/button.png"));
-	private static final TextureArea BUTTON_ACTIVATED = TextureArea
-			.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/grindstone/button_activated.png"));
+	private static final TextureArea BACKGROUND = TextureArea.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/grindstone/background.png"));
+	private static final TextureArea BUTTON = TextureArea.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/grindstone/button.png"));
+	private static final TextureArea BUTTON_ACTIVATED = TextureArea.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/grindstone/button_activated.png"));
 	private static final ITextComponent TITLE = new TranslationTextComponent("modulargui.grindstone.name");
 
 	private ItemStackHandler inventory;
@@ -138,8 +134,7 @@ public class TEGrindstone extends SyncedTE implements ITickableTileEntity, IModu
 	}
 
 	private void setOutputStack(ItemStack[] parts) {
-		ItemStack result = this.inventory.insertItem(5,
-				this.plan.getToolItem(parts).createItemStack(1, this.plan.getMaterial(parts)), false);
+		ItemStack result = this.inventory.insertItem(5, this.plan.getToolItem(parts).createItemStack(1, this.plan.getMaterial(parts)), false);
 		if (!result.isEmpty()) {
 			BlockPos pos = this.getBlockPos();
 			InventoryHelper.dropItemStack(this.level, pos.getX(), pos.getY(), pos.getZ(), result);
@@ -189,44 +184,15 @@ public class TEGrindstone extends SyncedTE implements ITickableTileEntity, IModu
 
 	@Override
 	public ModularGuiInfo createGuiInfo(PlayerEntity player) {
-		return ModularGuiInfo.builder().setBackground(BACKGROUND).addPlayerInventory(player.inventory)
-				.addWidget(0, new SlotWidget(8, 8, this.inventory, 0))
-				.addWidget(1, new SlotWidget(30, 8, this.inventory, 1))
-				.addWidget(2, new SlotWidget(52, 8, this.inventory, 2))
-				.addWidget(3, new SlotWidget(74, 8, this.inventory, 3))
-				.addWidget(4, new SlotWidget(96, 8, this.inventory, 4))
-				.addWidget(5, new SlotWidget(152, 8, this.inventory, 5))
+		return ModularGuiInfo.builder().setBackground(BACKGROUND).addPlayerInventory(player.inventory).addWidget(0, new SlotWidget(8, 8, this.inventory, 0)).addWidget(1, new SlotWidget(30, 8, this.inventory, 1))
+				.addWidget(2, new SlotWidget(52, 8, this.inventory, 2)).addWidget(3, new SlotWidget(74, 8, this.inventory, 3)).addWidget(4, new SlotWidget(96, 8, this.inventory, 4)).addWidget(5, new SlotWidget(152, 8, this.inventory, 5))
 				.addWidget(6,
-						new VariableListWidget()
-								.addWidget(0,
-										new ButtonWidget(0, 8, 41, 16, 16, this::onButtonClick)
-												.setRenderer(new ButtonRenderer(0)))
-								.addWidget(1,
-										new ButtonWidget(1, 8, 63, 16, 16, this::onButtonClick)
-												.setRenderer(new ButtonRenderer(1)))
-								.addWidget(2,
-										new ButtonWidget(2, 30, 41, 16, 16, this::onButtonClick)
-												.setRenderer(new ButtonRenderer(2)))
-								.addWidget(3,
-										new ButtonWidget(3, 30, 63, 16, 16, this::onButtonClick)
-												.setRenderer(new ButtonRenderer(3)))
-								.addWidget(4,
-										new ButtonWidget(4, 52, 41, 16, 16, this::onButtonClick)
-												.setRenderer(new ButtonRenderer(4)))
-								.addWidget(5,
-										new ButtonWidget(5, 52, 63, 16, 16, this::onButtonClick)
-												.setRenderer(new ButtonRenderer(5)))
-								.addWidget(6,
-										new ButtonWidget(6, 74, 41, 16, 16, this::onButtonClick)
-												.setRenderer(new ButtonRenderer(6)))
-								.addWidget(7,
-										new ButtonWidget(7, 74, 63, 16, 16, this::onButtonClick)
-												.setRenderer(new ButtonRenderer(7)))
-								.addWidget(8,
-										new ButtonWidget(8, 96, 41, 16, 16, this::onButtonClick)
-												.setRenderer(new ButtonRenderer(8)))
-								.addWidget(9, new ButtonWidget(9, 96, 63, 16, 16, this::onButtonClick)
-										.setRenderer(new ButtonRenderer(9))))
+						new VariableListWidget().addWidget(0, new ButtonWidget(0, 8, 41, 16, 16, this::onButtonClick).setRenderer(new ButtonRenderer(0)))
+								.addWidget(1, new ButtonWidget(1, 8, 63, 16, 16, this::onButtonClick).setRenderer(new ButtonRenderer(1))).addWidget(2, new ButtonWidget(2, 30, 41, 16, 16, this::onButtonClick).setRenderer(new ButtonRenderer(2)))
+								.addWidget(3, new ButtonWidget(3, 30, 63, 16, 16, this::onButtonClick).setRenderer(new ButtonRenderer(3))).addWidget(4, new ButtonWidget(4, 52, 41, 16, 16, this::onButtonClick).setRenderer(new ButtonRenderer(4)))
+								.addWidget(5, new ButtonWidget(5, 52, 63, 16, 16, this::onButtonClick).setRenderer(new ButtonRenderer(5))).addWidget(6, new ButtonWidget(6, 74, 41, 16, 16, this::onButtonClick).setRenderer(new ButtonRenderer(6)))
+								.addWidget(7, new ButtonWidget(7, 74, 63, 16, 16, this::onButtonClick).setRenderer(new ButtonRenderer(7))).addWidget(8, new ButtonWidget(8, 96, 41, 16, 16, this::onButtonClick).setRenderer(new ButtonRenderer(8)))
+								.addWidget(9, new ButtonWidget(9, 96, 63, 16, 16, this::onButtonClick).setRenderer(new ButtonRenderer(9))))
 				.build(player);
 	}
 
@@ -262,8 +228,7 @@ public class TEGrindstone extends SyncedTE implements ITickableTileEntity, IModu
 	public void deserializeNBT(BlockState state, CompoundNBT nbt) {
 		this.inventory.deserializeNBT(nbt.getCompound("inventory"));
 		if (nbt.contains("plan")) {
-			this.plan = (IGrindstoneTool) ModRegistries.REGISTRY_TOOL
-					.getValue(new ResourceLocation(nbt.getString("plan")));
+			this.plan = (IGrindstoneTool) ModRegistries.REGISTRY_TOOL.getValue(new ResourceLocation(nbt.getString("plan")));
 		}
 		if (nbt.contains("order")) {
 			this.order = nbt.getIntArray("order");

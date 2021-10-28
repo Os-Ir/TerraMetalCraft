@@ -1,4 +1,7 @@
-package com.osir.terrametalcraft.api.thermo;
+package com.osir.terrametalcraft.api.thermo.impl;
+
+import com.osir.terrametalcraft.api.thermo.IPhasePortrait;
+import com.osir.terrametalcraft.api.thermo.Phase;
 
 import net.minecraft.item.ItemStack;
 

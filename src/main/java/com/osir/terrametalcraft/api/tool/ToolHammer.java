@@ -57,16 +57,14 @@ public class ToolHammer extends ToolBase implements IGrindstoneTool {
 
 	@Override
 	public MaterialToolItem getToolItem(ItemStack[] parts) {
-		return ModItems.toolHammer;
+		return ModItems.HAMMER;
 	}
 
 	@Override
 	public boolean matches(ItemStack[] parts) {
 		Item item2 = parts[1].getItem();
 		Item item3 = parts[2].getItem();
-		return MaterialUtil.getMaterialTag(ModSolidShapes.HAMMER_HEAD).contains(parts[0].getItem())
-				&& (item2 == Items.STRING || item2 == ModItems.thinStrawRope) && (item3 == Items.STICK)
-				&& parts[3].isEmpty() && parts[4].isEmpty();
+		return MaterialUtil.getMaterialTag(ModSolidShapes.HAMMER_HEAD).contains(parts[0].getItem()) && (item2 == Items.STRING || item2 == ModItems.THIN_STRAW_ROPE) && (item3 == Items.STICK) && parts[3].isEmpty() && parts[4].isEmpty();
 	}
 
 	@Override

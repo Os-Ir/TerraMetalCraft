@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.osir.terrametalcraft.Main;
-
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -33,13 +31,11 @@ public class BlockCoverItem extends Block {
 	protected ItemStack stack;
 	protected VoxelShape shape;
 
-	public BlockCoverItem(String registryName, Material material, ItemStack stack, VoxelShape shape) {
+	public BlockCoverItem(Material material, ItemStack stack, VoxelShape shape) {
 		super(AbstractBlock.Properties.of(material).instabreak().sound(SoundType.WOOD).noOcclusion());
-		this.setRegistryName(Main.MODID, "cover_item_" + registryName);
 		this.stack = stack.copy();
 		this.shape = shape;
 		COVER_ITEM_BLOCK.put(this.stack, this);
-		ModBlocks.REGISTERED_BLOCK.add(this);
 	}
 
 	@Override
@@ -48,8 +44,7 @@ public class BlockCoverItem extends Block {
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
-			BlockRayTraceResult hit) {
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		world.destroyBlock(pos, false);
 		if (world.isClientSide) {
 			return ActionResultType.SUCCESS;
@@ -59,14 +54,12 @@ public class BlockCoverItem extends Block {
 	}
 
 	@Override
-	public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos,
-			PlayerEntity player) {
+	public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
 		return this.stack.copy();
 	}
 
 	@Override
-	public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos,
-			boolean isMoving) {
+	public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
 		if (world.getBlockState(pos.below()).getBlock() == Blocks.AIR) {
 			world.destroyBlock(pos, true);
 		}

@@ -8,7 +8,7 @@ import com.osir.terrametalcraft.Main;
 import com.osir.terrametalcraft.api.capability.CapabilityCarving;
 import com.osir.terrametalcraft.api.capability.CapabilityHeatable;
 import com.osir.terrametalcraft.api.capability.ModCapabilities;
-import com.osir.terrametalcraft.api.thermo.RecipePhasePortrait;
+import com.osir.terrametalcraft.api.thermo.impl.RecipePhasePortrait;
 import com.osir.terrametalcraft.common.block.BlockCoverGrass;
 import com.osir.terrametalcraft.common.block.ModBlocks;
 import com.osir.terrametalcraft.common.item.ModItems;
@@ -54,18 +54,14 @@ public class EventHandler {
 	public static void attachItemCapability(AttachCapabilitiesEvent<ItemStack> event) {
 		ItemStack stack = event.getObject();
 		Item item = stack.getItem();
-		if ((item == ModItems.chippedFlint || item == ModItems.chippedStone || item == ModItems.grindedFlint
-				|| item == ModItems.grindedStone) && !stack.getCapability(ModCapabilities.CARVING).isPresent()) {
+		if ((item == ModItems.CHIPPED_FLINT || item == ModItems.CHIPPED_STONE || item == ModItems.GRINDED_FLINT || item == ModItems.GRINDED_STONE) && !stack.getCapability(ModCapabilities.CARVING).isPresent()) {
 			event.addCapability(CapabilityCarving.KEY, new CapabilityCarving());
 		}
 		if (item == Items.IRON_INGOT || item == Items.GOLD_INGOT) {
 			event.addCapability(CapabilityHeatable.KEY, new CapabilityHeatable());
 		}
-		if (item == Items.PORKCHOP || item == Items.BEEF || item == Items.MUTTON || item == Items.CHICKEN
-				|| item == Items.RABBIT || item == Items.COD || item == Items.SALMON || item == Items.KELP
-				|| item == Items.POTATO) {
-			event.addCapability(CapabilityHeatable.KEY,
-					new CapabilityHeatable(new RecipePhasePortrait(3200, 480, getCookedItem(item))));
+		if (item == Items.PORKCHOP || item == Items.BEEF || item == Items.MUTTON || item == Items.CHICKEN || item == Items.RABBIT || item == Items.COD || item == Items.SALMON || item == Items.KELP || item == Items.POTATO) {
+			event.addCapability(CapabilityHeatable.KEY, new CapabilityHeatable(new RecipePhasePortrait(3200, 480, getCookedItem(item))));
 		}
 	}
 
@@ -115,15 +111,15 @@ public class EventHandler {
 		Direction face = event.getFace();
 		if (stack.getItem() == Items.FLINT) {
 			if (face == Direction.UP) {
-				result = new ItemStack(ModItems.grindedFlint);
+				result = new ItemStack(ModItems.GRINDED_FLINT);
 			} else if (face != Direction.DOWN) {
-				result = new ItemStack(ModItems.chippedFlint);
+				result = new ItemStack(ModItems.CHIPPED_FLINT);
 			}
-		} else if (stack.getItem() == ModItems.stone) {
+		} else if (stack.getItem() == ModItems.STONE) {
 			if (face == Direction.UP) {
-				result = new ItemStack(ModItems.grindedStone);
+				result = new ItemStack(ModItems.GRINDED_STONE);
 			} else if (face != Direction.DOWN) {
-				result = new ItemStack(ModItems.chippedStone);
+				result = new ItemStack(ModItems.CHIPPED_STONE);
 			}
 		}
 		if (!result.isEmpty()) {
@@ -142,9 +138,8 @@ public class EventHandler {
 		BlockState state = world.getBlockState(pos);
 		ItemStack stack = event.getItemStack();
 		PlayerEntity player = event.getPlayer();
-		if (player.isCrouching() && state.isCollisionShapeFullBlock(world, pos) && stack.getItem() == ModItems.grass
-				&& event.getFace() == Direction.UP) {
-			world.setBlock(pos.above(), ModBlocks.coverGrass.defaultBlockState().setValue(BlockCoverGrass.AGE, 0), 2);
+		if (player.isCrouching() && state.isCollisionShapeFullBlock(world, pos) && stack.getItem() == ModItems.GRASS && event.getFace() == Direction.UP) {
+			world.setBlock(pos.above(), ModBlocks.COVER_GRASS.defaultBlockState().setValue(BlockCoverGrass.AGE, 0), 2);
 			stack.shrink(1);
 		}
 	}
@@ -164,8 +159,7 @@ public class EventHandler {
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
 	public static void onDrawBlockHighlight(DrawHighlightEvent event) {
-		if (!(event.getTarget() instanceof BlockRayTraceResult)
-				|| !(event.getInfo().getEntity() instanceof PlayerEntity)) {
+		if (!(event.getTarget() instanceof BlockRayTraceResult) || !(event.getInfo().getEntity() instanceof PlayerEntity)) {
 			return;
 		}
 		PlayerEntity player = (PlayerEntity) event.getInfo().getEntity();
@@ -182,7 +176,7 @@ public class EventHandler {
 		}
 		ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
 		Item item = stack.getItem();
-		if (item != Items.FLINT && item != ModItems.stone) {
+		if (item != Items.FLINT && item != ModItems.STONE) {
 			return;
 		}
 		float grow = 0.002f;

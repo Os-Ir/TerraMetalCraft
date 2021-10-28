@@ -2,8 +2,8 @@ package com.osir.terrametalcraft.api.capability;
 
 import com.osir.terrametalcraft.Main;
 import com.osir.terrametalcraft.api.thermo.IPhasePortrait;
-import com.osir.terrametalcraft.api.thermo.SolidPhasePortrait;
 import com.osir.terrametalcraft.api.thermo.ThermoUtil;
+import com.osir.terrametalcraft.api.thermo.impl.SolidPhasePortrait;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;

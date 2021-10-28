@@ -16,7 +16,7 @@ public class GrassDropModifier extends LootModifier {
 
 	@Override
 	protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
-		generatedLoot.add(new ItemStack(ModItems.grass));
+		generatedLoot.add(new ItemStack(ModItems.GRASS));
 		return generatedLoot;
 	}
 }

@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import com.osir.terrametalcraft.Main;
 import com.osir.terrametalcraft.common.item.ModItems;
 
 import net.minecraft.block.AbstractBlock;
@@ -35,9 +34,7 @@ public class BlockCoverGrass extends Block {
 
 	public BlockCoverGrass() {
 		super(AbstractBlock.Properties.of(Material.PLANT).randomTicks().instabreak().sound(SoundType.CROP));
-		this.setRegistryName(Main.MODID, "cover_grass");
 		this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
-		ModBlocks.REGISTERED_BLOCK.add(this);
 	}
 
 	@Override
@@ -58,21 +55,20 @@ public class BlockCoverGrass extends Block {
 	@Override
 	public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
 		if (state.getValue(AGE) >= 7) {
-			return Arrays.asList(new ItemStack(ModItems.hay));
+			return Arrays.asList(new ItemStack(ModItems.HAY));
 		} else {
-			return Arrays.asList(new ItemStack(ModItems.grass));
+			return Arrays.asList(new ItemStack(ModItems.GRASS));
 		}
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn,
-			BlockRayTraceResult hit) {
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if (world.isClientSide) {
 			return ActionResultType.SUCCESS;
 		}
 		if (state.getValue(AGE) >= 7) {
 			world.destroyBlock(pos, false);
-			ItemHandlerHelper.giveItemToPlayer(player, new ItemStack(ModItems.hay));
+			ItemHandlerHelper.giveItemToPlayer(player, new ItemStack(ModItems.HAY));
 		}
 		return ActionResultType.CONSUME;
 	}

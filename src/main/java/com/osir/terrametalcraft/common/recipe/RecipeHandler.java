@@ -16,28 +16,21 @@ public class RecipeHandler {
 	public static final RecipeMap MAP_CARVING = new RecipeMap("carving", 1, 1, 1, 1, 0, 0, 0, 0);
 	public static final RecipeMap MAP_GRINDSTONE = new RecipeMap("grindstone", 1, 5, 1, 1, 0, 0, 0, 0);
 
-	public static final IRecipeProperty<Long> PROPERTY_CARVING = new NormalReicpeProperty<Long>(
-			new ResourceLocation(Main.MODID, "carving"), 0l);
+	public static final IRecipeProperty<Long> PROPERTY_CARVING = new NormalReicpeProperty<Long>(new ResourceLocation(Main.MODID, "carving"), 0l);
 
 	public static void register() {
-		MAP_CARVING.builder().inputItem(new ItemStack(ModItems.grindedFlint))
-				.outputItem(MaterialUtil.getMaterialItemStack(ModSolidShapes.KNIFE_HEAD, ModMaterials.FLINT))
-				.addPropertyValue(PROPERTY_CARVING, 1655735156992l).build(Main.MODID, "flint_knife_head");
-		MAP_CARVING.builder().inputItem(new ItemStack(ModItems.grindedStone))
-				.outputItem(MaterialUtil.getMaterialItemStack(ModSolidShapes.KNIFE_HEAD, ModMaterials.STONE))
-				.addPropertyValue(PROPERTY_CARVING, 1655735156992l).build(Main.MODID, "stone_knife_head");
-		MAP_CARVING.builder().inputItem(new ItemStack(ModItems.grindedFlint))
-				.outputItem(MaterialUtil.getMaterialItemStack(ModSolidShapes.CHISEL_HEAD, ModMaterials.FLINT))
-				.addPropertyValue(PROPERTY_CARVING, 282453282304l).build(Main.MODID, "flint_chisel_head");
-		MAP_CARVING.builder().inputItem(new ItemStack(ModItems.grindedStone))
-				.outputItem(MaterialUtil.getMaterialItemStack(ModSolidShapes.CHISEL_HEAD, ModMaterials.STONE))
-				.addPropertyValue(PROPERTY_CARVING, 282453282304l).build(Main.MODID, "stone_chisel_head");
-		MAP_CARVING.builder().inputItem(new ItemStack(ModItems.chippedFlint))
-				.outputItem(MaterialUtil.getMaterialItemStack(ModSolidShapes.HAMMER_HEAD, ModMaterials.FLINT))
-				.addPropertyValue(PROPERTY_CARVING, 1023744l).build(Main.MODID, "flint_hammer_head");
-		MAP_CARVING.builder().inputItem(new ItemStack(ModItems.chippedStone))
-				.outputItem(MaterialUtil.getMaterialItemStack(ModSolidShapes.HAMMER_HEAD, ModMaterials.STONE))
-				.addPropertyValue(PROPERTY_CARVING, 1023744l).build(Main.MODID, "stone_hammer_head");
+		MAP_CARVING.builder().inputItem(new ItemStack(ModItems.GRINDED_FLINT)).outputItem(MaterialUtil.getMaterialItemStack(ModSolidShapes.KNIFE_HEAD, ModMaterials.FLINT)).addPropertyValue(PROPERTY_CARVING, 1655735156992l).build(Main.MODID,
+				"flint_knife_head");
+		MAP_CARVING.builder().inputItem(new ItemStack(ModItems.GRINDED_STONE)).outputItem(MaterialUtil.getMaterialItemStack(ModSolidShapes.KNIFE_HEAD, ModMaterials.STONE)).addPropertyValue(PROPERTY_CARVING, 1655735156992l).build(Main.MODID,
+				"stone_knife_head");
+		MAP_CARVING.builder().inputItem(new ItemStack(ModItems.GRINDED_FLINT)).outputItem(MaterialUtil.getMaterialItemStack(ModSolidShapes.CHISEL_HEAD, ModMaterials.FLINT)).addPropertyValue(PROPERTY_CARVING, 282453282304l).build(Main.MODID,
+				"flint_chisel_head");
+		MAP_CARVING.builder().inputItem(new ItemStack(ModItems.GRINDED_STONE)).outputItem(MaterialUtil.getMaterialItemStack(ModSolidShapes.CHISEL_HEAD, ModMaterials.STONE)).addPropertyValue(PROPERTY_CARVING, 282453282304l).build(Main.MODID,
+				"stone_chisel_head");
+		MAP_CARVING.builder().inputItem(new ItemStack(ModItems.CHIPPED_FLINT)).outputItem(MaterialUtil.getMaterialItemStack(ModSolidShapes.HAMMER_HEAD, ModMaterials.FLINT)).addPropertyValue(PROPERTY_CARVING, 1023744l).build(Main.MODID,
+				"flint_hammer_head");
+		MAP_CARVING.builder().inputItem(new ItemStack(ModItems.CHIPPED_STONE)).outputItem(MaterialUtil.getMaterialItemStack(ModSolidShapes.HAMMER_HEAD, ModMaterials.STONE)).addPropertyValue(PROPERTY_CARVING, 1023744l).build(Main.MODID,
+				"stone_hammer_head");
 
 //		Material.REGISTRY.values().forEach((material) -> {
 //			if (material.hasFlag(Material.GENERATE_TOOL)) {

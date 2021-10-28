@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.osir.terrametalcraft.common.RegistryHandler;
+import com.osir.terrametalcraft.common.block.ModBlocks;
 import com.osir.terrametalcraft.common.item.MaterialItem;
 import com.osir.terrametalcraft.common.item.ModItems;
 import com.osir.terrametalcraft.common.recipe.RecipeHandler;
@@ -33,7 +34,7 @@ public class Main {
 	public static final ItemGroup GROUP_ITEM = new ItemGroup(MODID + "_item") {
 		@Override
 		public ItemStack makeIcon() {
-			return new ItemStack(ModItems.tmcCoin);
+			return new ItemStack(ModItems.TMC_COIN);
 		}
 	};
 
@@ -45,11 +46,12 @@ public class Main {
 	};
 
 	public Main() {
-		RegistryHandler.setupItem();
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+		RegistryHandler.register();
+		ModItems.ITEMS.register(bus);
+		ModBlocks.BLOCKS.register(bus);
 		ModFeatures.FEATURES.register(bus);
 //		RegistryHandler.LOOT_MODIFIER.register(bus);
-		RegistryHandler.register();
 	}
 
 	public static Logger getLogger() {
@@ -62,8 +64,7 @@ public class Main {
 		RegistryHandler.registerCapability();
 		RecipeHandler.register();
 		ModFeatures.init();
-		MaterialItem.REGISTERED_MATERIAL_ITEM.values()
-				.forEach((item) -> Minecraft.getInstance().getItemColors().register(item::getItemColor, item));
+		MaterialItem.REGISTERED_MATERIAL_ITEM.values().forEach((item) -> Minecraft.getInstance().getItemColors().register(item::getItemColor, item));
 	}
 
 	@SubscribeEvent

@@ -22,11 +22,10 @@ public class StoneFeature extends Feature<NoFeatureConfig> {
 	}
 
 	@Override
-	public boolean place(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos,
-			NoFeatureConfig config) {
-		BlockState stateStone = ModBlocks.coverItemStone.defaultBlockState();
-		BlockState stateFlint = ModBlocks.coverItemFlint.defaultBlockState();
-		BlockState stateStick = ModBlocks.coverItemStick.defaultBlockState();
+	public boolean place(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config) {
+		BlockState stateStone = ModBlocks.COVER_ITEM_STONE.defaultBlockState();
+		BlockState stateFlint = ModBlocks.COVER_ITEM_FLINT.defaultBlockState();
+		BlockState stateStick = ModBlocks.COVER_ITEM_STICK.defaultBlockState();
 		int num = rand.nextInt(3) + 3;
 		while (num-- > 0) {
 			int dx = rand.nextInt(16);
@@ -53,9 +52,7 @@ public class StoneFeature extends Feature<NoFeatureConfig> {
 	private boolean validate(ISeedReader reader, BlockPos pos) {
 		Block block = reader.getBlockState(pos).getBlock();
 		Material materialDown = reader.getBlockState(pos.below()).getMaterial();
-		return reader.getBlockState(pos.below()).isCollisionShapeFullBlock(reader, pos)
-				&& (reader.isEmptyBlock(pos) || block == Blocks.SNOW || block == Blocks.GRASS
-						|| block == Blocks.TALL_GRASS)
+		return reader.getBlockState(pos.below()).isCollisionShapeFullBlock(reader, pos) && (reader.isEmptyBlock(pos) || block == Blocks.SNOW || block == Blocks.GRASS || block == Blocks.TALL_GRASS)
 				&& (materialDown == Material.STONE || materialDown == Material.SAND || materialDown == Material.DIRT);
 	}
 }

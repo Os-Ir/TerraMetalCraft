@@ -17,9 +17,9 @@ import com.osir.terrametalcraft.api.capability.IHeatable;
 import com.osir.terrametalcraft.api.capability.ModCapabilities;
 import com.osir.terrametalcraft.api.te.SyncedTE;
 import com.osir.terrametalcraft.api.thermo.IPhasePortrait;
-import com.osir.terrametalcraft.api.thermo.RecipePhasePortrait;
-import com.osir.terrametalcraft.api.thermo.SolidPhasePortrait;
 import com.osir.terrametalcraft.api.thermo.ThermoUtil;
+import com.osir.terrametalcraft.api.thermo.impl.RecipePhasePortrait;
+import com.osir.terrametalcraft.api.thermo.impl.SolidPhasePortrait;
 import com.osir.terrametalcraft.common.block.ModBlocks;
 
 import net.minecraft.block.BlockState;
@@ -38,15 +38,11 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class TECampfire extends SyncedTE implements ITickableTileEntity, IModularGuiHolder {
-	public static final TileEntityType<TECampfire> TYPE = TileEntityType.Builder
-			.of(() -> new TECampfire(), ModBlocks.campfire).build(null);
+	public static final TileEntityType<TECampfire> TYPE = TileEntityType.Builder.of(() -> new TECampfire(), ModBlocks.CAMPFIRE).build(null);
 
-	private static final TextureArea BACKGROUND = TextureArea
-			.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/campfire/background.png"));
-	private static final TextureArea OVERLAY_FIRE = TextureArea
-			.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/campfire/overlay_fire.png"));
-	private static final TextureArea POINTER = TextureArea
-			.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/campfire/pointer.png"));
+	private static final TextureArea BACKGROUND = TextureArea.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/campfire/background.png"));
+	private static final TextureArea OVERLAY_FIRE = TextureArea.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/campfire/overlay_fire.png"));
+	private static final TextureArea POINTER = TextureArea.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/campfire/pointer.png"));
 	private static final ITextComponent TITLE = new TranslationTextComponent("modulargui.campfire.name");
 
 	private static final float COOLING_RESISTANCE = 0.5f;
@@ -91,16 +87,14 @@ public class TECampfire extends SyncedTE implements ITickableTileEntity, IModula
 			}
 		}
 		for (int i = 1; i <= 3; i++) {
-			LazyOptional<IHeatable> optional = this.inventory.getStackInSlot(i).getCapability(ModCapabilities.HEATABLE,
-					null);
+			LazyOptional<IHeatable> optional = this.inventory.getStackInSlot(i).getCapability(ModCapabilities.HEATABLE, null);
 			if (optional.isPresent()) {
 				IHeatable cap = optional.orElse(null);
 				ThermoUtil.heatExchange(this.heat, cap, RESISTANCE_L);
 				this.checkHeatRecipe(cap, i);
 			}
 		}
-		LazyOptional<IHeatable> optional = this.inventory.getStackInSlot(4).getCapability(ModCapabilities.HEATABLE,
-				null);
+		LazyOptional<IHeatable> optional = this.inventory.getStackInSlot(4).getCapability(ModCapabilities.HEATABLE, null);
 		if (optional.isPresent()) {
 			IHeatable cap = optional.orElse(null);
 			ThermoUtil.heatExchange(this.heat, cap, RESISTANCE_H);
@@ -141,18 +135,10 @@ public class TECampfire extends SyncedTE implements ITickableTileEntity, IModula
 
 	@Override
 	public ModularGuiInfo createGuiInfo(PlayerEntity player) {
-		return ModularGuiInfo.builder().setBackground(BACKGROUND).addPlayerInventory(player.inventory)
-				.addWidget(0, new SlotWidget(8, 63, this.inventory, 0))
-				.addWidget(1, new SlotWidget(53, 10, this.inventory, 1))
-				.addWidget(2, new SlotWidget(80, 10, this.inventory, 2))
-				.addWidget(3, new SlotWidget(107, 10, this.inventory, 3))
-				.addWidget(4, new SlotWidget(80, 37, this.inventory, 4))
-				.addWidget(5,
-						new ProgressWidget(30, 64, 14, 14, this::getBurnTimeProgress, MoveType.VERTICAL_INVERTED)
-								.setTexture(OVERLAY_FIRE))
-				.addWidget(6, new PointerWidget(47, 63, 5, 17, this::getTemperaturePointer, MoveType.HORIZONTAL)
-						.setRenderer(POINTER))
-				.build(player);
+		return ModularGuiInfo.builder().setBackground(BACKGROUND).addPlayerInventory(player.inventory).addWidget(0, new SlotWidget(8, 63, this.inventory, 0)).addWidget(1, new SlotWidget(53, 10, this.inventory, 1))
+				.addWidget(2, new SlotWidget(80, 10, this.inventory, 2)).addWidget(3, new SlotWidget(107, 10, this.inventory, 3)).addWidget(4, new SlotWidget(80, 37, this.inventory, 4))
+				.addWidget(5, new ProgressWidget(30, 64, 14, 14, this::getBurnTimeProgress, MoveType.VERTICAL_INVERTED).setTexture(OVERLAY_FIRE))
+				.addWidget(6, new PointerWidget(47, 63, 5, 17, this::getTemperaturePointer, MoveType.HORIZONTAL).setRenderer(POINTER)).build(player);
 	}
 
 	@Override

@@ -1,8 +1,6 @@
 package com.osir.terrametalcraft.common.block;
 
 import com.github.zi_jing.cuckoolib.gui.ModularGuiInfo;
-import com.github.zi_jing.cuckoolib.item.ItemBase;
-import com.osir.terrametalcraft.Main;
 import com.osir.terrametalcraft.common.te.TECampfire;
 
 import net.minecraft.block.AbstractBlock;
@@ -12,8 +10,6 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -29,15 +25,10 @@ public class BlockCampfire extends Block {
 
 	public BlockCampfire() {
 		super(AbstractBlock.Properties.of(Material.WOOD).strength(0.5f).sound(SoundType.WOOD).noOcclusion());
-		this.setRegistryName(Main.MODID, "campfire");
-		ModBlocks.REGISTERED_BLOCK.add(this);
-		ItemBase.REGISTERED_ITEM.add(new BlockItem(this, new Item.Properties().tab(Main.GROUP_EQUIPMENT))
-				.setRegistryName(Main.MODID, "campfire"));
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn,
-			BlockRayTraceResult hit) {
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if (world.isClientSide) {
 			return ActionResultType.SUCCESS;
 		}

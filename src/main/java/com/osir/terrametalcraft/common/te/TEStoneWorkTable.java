@@ -48,17 +48,12 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, IModularGuiHolder, IPlanInfoTileEntity {
-	public static final TileEntityType<TEStoneWorkTable> TYPE = TileEntityType.Builder
-			.of(() -> new TEStoneWorkTable(), ModBlocks.stoneWorkTable).build(null);
+	public static final TileEntityType<TEStoneWorkTable> TYPE = TileEntityType.Builder.of(() -> new TEStoneWorkTable(), ModBlocks.STONE_WORK_TABLE).build(null);
 
-	private static final TextureArea BACKGROUND = TextureArea
-			.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/stone_work_table/background.png"));
-	private static final TextureArea OUTLINE = TextureArea
-			.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/stone_work_table/outline.png"));
-	private static final TextureArea STONE = TextureArea
-			.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/stone_work_table/stone.png"));
-	private static final TextureArea STONE_SMALL = TextureArea.createTexture(
-			new ResourceLocation(Main.MODID, "textures/gui/stone_work_table/stone.png"), 0, 0, 0.125f, 0.125f);
+	private static final TextureArea BACKGROUND = TextureArea.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/stone_work_table/background.png"));
+	private static final TextureArea OUTLINE = TextureArea.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/stone_work_table/outline.png"));
+	private static final TextureArea STONE = TextureArea.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/stone_work_table/stone.png"));
+	private static final TextureArea STONE_SMALL = TextureArea.createTexture(new ResourceLocation(Main.MODID, "textures/gui/stone_work_table/stone.png"), 0, 0, 0.125f, 0.125f);
 	private static final ITextComponent TITLE = new TranslationTextComponent("modulargui.stone_work_table.name");
 
 	private static final Cache<Item, List<Recipe>> CACHE_RECIPE = CacheBuilder.newBuilder().maximumSize(64).build();
@@ -90,8 +85,7 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 		if (CACHE_RECIPE.asMap().containsKey(item)) {
 			return CACHE_RECIPE.getIfPresent(item);
 		}
-		List<Recipe> recipes = RecipeHandler.MAP_CARVING.findAllRecipes(Arrays.asList(new ItemStack(item)),
-				new ArrayList<FluidStack>());
+		List<Recipe> recipes = RecipeHandler.MAP_CARVING.findAllRecipes(Arrays.asList(new ItemStack(item)), new ArrayList<FluidStack>());
 		if (recipes.isEmpty()) {
 			CACHE_BLACK_LIST.put(item, false);
 		} else {
@@ -111,13 +105,11 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 	private void onStoneWork(ButtonClickData clickData, ModularContainer container) {
 		ItemStack stack = this.inventory.getStackInSlot(0);
 		if (stack.getCount() == 1 && stack.getCapability(ModCapabilities.CARVING).isPresent()) {
-			long[] data = this.inventory.getStackInSlot(0).getCapability(ModCapabilities.CARVING).orElseThrow(null)
-					.getAllCarveData();
+			long[] data = this.inventory.getStackInSlot(0).getCapability(ModCapabilities.CARVING).orElseThrow(null).getAllCarveData();
 			int dataCount = clickData.getY() / 16 * 7 + clickData.getX() / 16;
 			int px = clickData.getX() / 2;
 			int py = clickData.getY() / 2;
-			if (this.getCarvingPoint(data, px - 1, py) != 0 || this.getCarvingPoint(data, px + 1, py) != 0
-					|| this.getCarvingPoint(data, px, py - 1) != 0 || this.getCarvingPoint(data, px, py + 1) != 0) {
+			if (this.getCarvingPoint(data, px - 1, py) != 0 || this.getCarvingPoint(data, px + 1, py) != 0 || this.getCarvingPoint(data, px, py - 1) != 0 || this.getCarvingPoint(data, px, py + 1) != 0) {
 				Random rand = new Random();
 				int minx = px - 3;
 				int maxx = px + 3;
@@ -125,8 +117,7 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 				int maxy = py + 3;
 				for (int i = minx; i <= maxx; i++) {
 					for (int j = miny; j <= maxy; j++) {
-						if (MathUtil.between(i, minx + 1, maxx - 1) || MathUtil.between(j, miny + 1, maxy - 1)
-								|| rand.nextBoolean()) {
+						if (MathUtil.between(i, minx + 1, maxx - 1) || MathUtil.between(j, miny + 1, maxy - 1) || rand.nextBoolean()) {
 							this.setCarvingPoint(data, i, j, true);
 						}
 					}
@@ -164,8 +155,7 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 	private void renderWorkButton(MatrixStack transform, int x, int y, int width, int height) {
 		ItemStack stack = this.inventory.getStackInSlot(0);
 		if (stack.getCount() == 1 && stack.getCapability(ModCapabilities.CARVING).isPresent()) {
-			long[] data = this.inventory.getStackInSlot(0).getCapability(ModCapabilities.CARVING)
-					.orElseThrow(() -> new NullPointerException()).getAllCarveData();
+			long[] data = this.inventory.getStackInSlot(0).getCapability(ModCapabilities.CARVING).orElseThrow(() -> new NullPointerException()).getAllCarveData();
 			for (int i = 0; i < 49; i++) {
 				if (data[i] == 0) {
 					STONE.draw(transform, x + (i % 7) * 16, y + i / 7 * 16, 16, 16);
@@ -184,8 +174,7 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 				Recipe recipe = list.get(this.plan);
 				if (recipe.containsProperty(RecipeHandler.PROPERTY_CARVING)) {
 					long value = recipe.getPropertyValue(RecipeHandler.PROPERTY_CARVING);
-					int alpha = 60
-							+ (int) (Math.cos(((float) (System.currentTimeMillis() % 2000)) / 2000 * 2 * Math.PI) * 40);
+					int alpha = 60 + (int) (Math.cos(((float) (System.currentTimeMillis() % 2000)) / 2000 * 2 * Math.PI) * 40);
 					for (int i = 0; i < 49; i++) {
 						if ((value & (1l << i)) != 0) {
 							OUTLINE.draw(transform, x + (i % 7) * 16, y + i / 7 * 16, 16, 16, alpha);
@@ -197,8 +186,7 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 	}
 
 	public void openPlanGui(ButtonClickData clickData, ModularContainer container) {
-		ModularGuiInfo.openModularGui(new PlanGuiHolder(this), (ServerPlayerEntity) container.getGuiInfo().getPlayer(),
-				container.getParentGuiHolders());
+		ModularGuiInfo.openModularGui(new PlanGuiHolder(this), (ServerPlayerEntity) container.getGuiInfo().getPlayer(), container.getParentGuiHolders());
 	}
 
 	private void setPlan(int plan) {
@@ -217,8 +205,7 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 			}
 			long value = recipe.getPropertyValue(RecipeHandler.PROPERTY_CARVING);
 			if (stack.getCapability(ModCapabilities.CARVING).isPresent()) {
-				ICarving cap = stack.getCapability(ModCapabilities.CARVING)
-						.orElseThrow(() -> new NullPointerException());
+				ICarving cap = stack.getCapability(ModCapabilities.CARVING).orElseThrow(() -> new NullPointerException());
 				for (int i = 0; i < 49; i++) {
 					if (!cap.isAreaValid(i, (value & (1l << i)) == 0 ? 1 : 0, 0.125f)) {
 						return false;
@@ -230,9 +217,7 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 	}
 
 	private void setOutputStack() {
-		ItemStack result = this.inventory.insertItem(1,
-				getRecipe(this.inventory.getStackInSlot(0)).get(this.plan).getOutputs().get(0).getItemStack().copy(),
-				false);
+		ItemStack result = this.inventory.insertItem(1, getRecipe(this.inventory.getStackInSlot(0)).get(this.plan).getOutputs().get(0).getItemStack().copy(), false);
 		if (!result.isEmpty()) {
 			BlockPos pos = this.getBlockPos();
 			InventoryHelper.dropItemStack(this.level, pos.getX(), pos.getY(), pos.getZ(), result);
@@ -249,8 +234,7 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 		return (transform, x, y, width, height) -> {
 			List<Recipe> recipes = getRecipe(this.inventory.getStackInSlot(0));
 			if (recipes.size() > count) {
-				Minecraft.getInstance().getItemRenderer()
-						.renderAndDecorateItem(recipes.get(count).getOutputs().get(0).getItemStack(), x + 1, y + 1);
+				Minecraft.getInstance().getItemRenderer().renderAndDecorateItem(recipes.get(count).getOutputs().get(0).getItemStack(), x + 1, y + 1);
 			}
 		};
 	}
@@ -279,22 +263,15 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 
 	@Override
 	public ModularGuiInfo createGuiInfo(PlayerEntity player) {
-		return ModularGuiInfo.builder(176, 216).setBackground(BACKGROUND).addPlayerInventory(player.inventory, 8, 134)
-				.addWidget(0, new SlotWidget(153, 7, this.inventory, 0))
-				.addWidget(1, new SlotWidget(153, 101, this.inventory, 1, false, true))
-				.addWidget(2,
-						new ButtonWidget(0, 6, 6, 112, 112, this::onStoneWork).setRenderer(this::renderWorkButton))
-				.addWidget(3, new ButtonWidget(1, 133, 7, 16, 16, this::openPlanGui)
-						.setRenderer((transform, x, y, width, height) -> {
-							if (this.plan >= 0) {
-								List<Recipe> recipes = getRecipe(this.inventory.getStackInSlot(0));
-								if (recipes.size() > this.plan) {
-									Minecraft.getInstance().getItemRenderer().renderAndDecorateItem(
-											recipes.get(this.plan).getOutputs().get(0).getItemStack(), x, y);
-								}
-							}
-						}))
-				.build(player);
+		return ModularGuiInfo.builder(176, 216).setBackground(BACKGROUND).addPlayerInventory(player.inventory, 8, 134).addWidget(0, new SlotWidget(153, 7, this.inventory, 0)).addWidget(1, new SlotWidget(153, 101, this.inventory, 1, false, true))
+				.addWidget(2, new ButtonWidget(0, 6, 6, 112, 112, this::onStoneWork).setRenderer(this::renderWorkButton)).addWidget(3, new ButtonWidget(1, 133, 7, 16, 16, this::openPlanGui).setRenderer((transform, x, y, width, height) -> {
+					if (this.plan >= 0) {
+						List<Recipe> recipes = getRecipe(this.inventory.getStackInSlot(0));
+						if (recipes.size() > this.plan) {
+							Minecraft.getInstance().getItemRenderer().renderAndDecorateItem(recipes.get(this.plan).getOutputs().get(0).getItemStack(), x, y);
+						}
+					}
+				})).build(player);
 	}
 
 	@Override
