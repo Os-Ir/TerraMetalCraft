@@ -6,9 +6,11 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.osir.terrametalcraft.Main;
 import com.osir.terrametalcraft.api.capability.CapabilityCarving;
+import com.osir.terrametalcraft.api.capability.CapabilityHeatContainer;
 import com.osir.terrametalcraft.api.capability.CapabilityHeatable;
 import com.osir.terrametalcraft.api.capability.ModCapabilities;
 import com.osir.terrametalcraft.api.thermo.impl.RecipePhasePortrait;
+import com.osir.terrametalcraft.api.thermo.impl.SolidPhasePortrait;
 import com.osir.terrametalcraft.common.block.BlockCoverGrass;
 import com.osir.terrametalcraft.common.block.ModBlocks;
 import com.osir.terrametalcraft.common.item.ModItems;
@@ -57,11 +59,15 @@ public class EventHandler {
 		if ((item == ModItems.CHIPPED_FLINT || item == ModItems.CHIPPED_STONE || item == ModItems.GRINDED_FLINT || item == ModItems.GRINDED_STONE) && !stack.getCapability(ModCapabilities.CARVING).isPresent()) {
 			event.addCapability(CapabilityCarving.KEY, new CapabilityCarving());
 		}
-		if (item == Items.IRON_INGOT || item == Items.GOLD_INGOT) {
-			event.addCapability(CapabilityHeatable.KEY, new CapabilityHeatable());
-		}
 		if (item == Items.PORKCHOP || item == Items.BEEF || item == Items.MUTTON || item == Items.CHICKEN || item == Items.RABBIT || item == Items.COD || item == Items.SALMON || item == Items.KELP || item == Items.POTATO) {
 			event.addCapability(CapabilityHeatable.KEY, new CapabilityHeatable(new RecipePhasePortrait(3200, 480, getCookedItem(item))));
+		}
+		if (item == ModItems.SMALL_CRUCIBLE) {
+			event.addCapability(CapabilityHeatable.KEY, new CapabilityHeatable(new SolidPhasePortrait(1600)));
+			event.addCapability(CapabilityHeatContainer.KEY, new CapabilityHeatContainer(1600, 288));
+		}
+		if (item == ModItems.IGNITER) {
+			event.addCapability(CapabilityHeatable.KEY, new CapabilityHeatable(new SolidPhasePortrait(800)));
 		}
 	}
 
@@ -153,6 +159,9 @@ public class EventHandler {
 			if (!cap.isEmpty()) {
 				tooltip.add(new StringTextComponent(TextFormatting.AQUA + I18n.get("cuckoolib.item.carving.carved")));
 			}
+		});
+		stack.getCapability(ModCapabilities.HEAT_CONTAINER).ifPresent((cap) -> {
+			tooltip.add(new StringTextComponent(TextFormatting.BLUE + "" + cap.getUsedVolume() + "L"));
 		});
 	}
 

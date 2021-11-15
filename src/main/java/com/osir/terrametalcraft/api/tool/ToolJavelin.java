@@ -9,24 +9,28 @@ import com.github.zi_jing.cuckoolib.item.MaterialToolItem;
 import com.github.zi_jing.cuckoolib.material.ModMaterials;
 import com.github.zi_jing.cuckoolib.material.ModSolidShapes;
 import com.github.zi_jing.cuckoolib.material.type.MaterialBase;
+import com.github.zi_jing.cuckoolib.tool.IToolUsable;
 import com.github.zi_jing.cuckoolib.tool.ToolBase;
 import com.osir.terrametalcraft.Main;
 import com.osir.terrametalcraft.api.material.MaterialUtil;
+import com.osir.terrametalcraft.common.entity.JavelinEntity;
 import com.osir.terrametalcraft.common.item.ModItems;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.tags.ITag;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ToolType;
 
-public class ToolJavelin extends ToolBase implements IGrindstoneTool {
+public class ToolJavelin extends ToolBase implements IGrindstoneTool, IToolUsable {
 	public static final ResourceLocation REGISTRY_NAME = new ResourceLocation(Main.MODID, "javelin");
 
 	public static final ToolJavelin INSTANCE = new ToolJavelin();
@@ -37,8 +41,23 @@ public class ToolJavelin extends ToolBase implements IGrindstoneTool {
 	}
 
 	@Override
+	public int getBlockBreakDamage() {
+		return 0;
+	}
+
+	@Override
 	public boolean canHarvestBlock(ItemStack stack, BlockState state) {
 		return false;
+	}
+
+	@Override
+	public int getHarvestLevel(ItemStack stack, ToolType tool, PlayerEntity player, BlockState blockState) {
+		return -1;
+	}
+
+	@Override
+	public float getDestroySpeed(ItemStack stack) {
+		return 0;
 	}
 
 	@Override
@@ -81,19 +100,26 @@ public class ToolJavelin extends ToolBase implements IGrindstoneTool {
 	}
 
 	@Override
-	public void onPlayerStoppedUsing(ItemStack stack, World world, LivingEntity entityLiving, int timeLeft) {
+	public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+		player.startUsingItem(hand);
+		return ActionResult.consume(player.getItemInHand(hand));
+	}
+
+	@Override
+	public void releaseUsing(ItemStack stack, World world, LivingEntity entityLiving, int timeLeft) {
 		if (entityLiving instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) entityLiving;
-			float velocity = Math.min((72000 - timeLeft), 40) * 0.04f;
+			float velocity = Math.min(MAX_USE_TICK - timeLeft, 40) * 0.06f;
 			if (!world.isClientSide && velocity >= 0.1f) {
-				ArrowEntity arrow = new ArrowEntity(world, player);
-				arrow.setBaseDamage(4);
+				ItemStack entityStack = stack.copy();
+				entityStack.setCount(1);
+				JavelinEntity arrow = new JavelinEntity(world, entityStack, player);
 				Vector3d vec = player.getLookAngle();
-				arrow.shoot(vec.x, vec.y, vec.z, velocity, 3);
+				arrow.shoot(vec.x, vec.y, vec.z, velocity, 1);
 				world.addFreshEntity(arrow);
-//				if (!player.abilities.isCreativeMode) {
-//					stack.shrink(1);
-//				}
+				if (!player.isCreative()) {
+					stack.shrink(1);
+				}
 			}
 		}
 	}

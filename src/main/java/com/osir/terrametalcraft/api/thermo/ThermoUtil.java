@@ -7,9 +7,9 @@ import com.osir.terrametalcraft.api.capability.IHeatable;
 public class ThermoUtil {
 	public static final UnorderedRegistry<MaterialBase, PhasePortrait> REGISTRY_MATERIAL_PORTRAIT = new UnorderedRegistry<MaterialBase, PhasePortrait>();
 
-	public static final float UNIVERSAL_GAS_CONSTANT = 8.31451f;
+	public static final double UNIVERSAL_GAS_CONSTANT = 8.31451;
 
-	public static final float ATMOSPHERIC_PRESSURE = 101300;
+	public static final double ATMOSPHERIC_PRESSURE = 101300;
 	public static final double AMBIENT_TEMPERATURE = 290;
 	public static final double CELSIUS_ZERO = 273.15f;
 

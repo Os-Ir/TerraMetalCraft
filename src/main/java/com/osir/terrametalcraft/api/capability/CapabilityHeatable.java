@@ -68,8 +68,6 @@ public class CapabilityHeatable implements IHeatable, ICapabilitySerializable<Co
 
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
-		if (nbt.contains("energy")) {
-			this.energy = nbt.getDouble("energy");
-		}
+		this.energy = nbt.getDouble("energy");
 	}
 }

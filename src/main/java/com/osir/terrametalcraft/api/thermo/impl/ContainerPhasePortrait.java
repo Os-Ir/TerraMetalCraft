@@ -9,7 +9,7 @@ import com.osir.terrametalcraft.api.thermo.Phase;
 
 public class ContainerPhasePortrait implements IPhasePortrait {
 	protected Map<MaterialBase, Integer> materials;
-	private float capacity;
+	private double capacity;
 
 	public ContainerPhasePortrait() {
 		this.materials = new HashMap<MaterialBase, Integer>();
@@ -26,17 +26,17 @@ public class ContainerPhasePortrait implements IPhasePortrait {
 	}
 
 	@Override
-	public double getTemperature(float pressure, double energy) {
+	public double getTemperature(double pressure, double energy) {
 		return energy / this.capacity;
 	}
 
 	@Override
-	public double getEnergy(float pressure, double temperature) {
+	public double getEnergy(double pressure, double temperature) {
 		return this.capacity * temperature;
 	}
 
 	@Override
-	public Phase getPhase(float pressure, double energy) {
+	public Phase getPhase(double pressure, double energy) {
 		return Phase.SOLID;
 	}
 }

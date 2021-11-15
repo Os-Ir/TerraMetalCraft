@@ -6,28 +6,28 @@ import com.osir.terrametalcraft.api.thermo.Phase;
 import net.minecraft.item.ItemStack;
 
 public class RecipePhasePortrait implements IPhasePortrait {
-	protected float capacity;
+	protected double capacity;
 	protected double transitionTemp;
 	protected ItemStack result;
 
-	public RecipePhasePortrait(float capacity, double transitionTemp, ItemStack result) {
+	public RecipePhasePortrait(double capacity, double transitionTemp, ItemStack result) {
 		this.capacity = capacity;
 		this.transitionTemp = transitionTemp;
 		this.result = result;
 	}
 
 	@Override
-	public double getTemperature(float pressure, double energy) {
+	public double getTemperature(double pressure, double energy) {
 		return Math.min(energy / this.capacity, this.transitionTemp);
 	}
 
 	@Override
-	public double getEnergy(float pressure, double temperature) {
+	public double getEnergy(double pressure, double temperature) {
 		return Math.min(temperature, this.transitionTemp) * this.capacity;
 	}
 
 	@Override
-	public Phase getPhase(float pressure, double energy) {
+	public Phase getPhase(double pressure, double energy) {
 		return Phase.SOLID;
 	}
 

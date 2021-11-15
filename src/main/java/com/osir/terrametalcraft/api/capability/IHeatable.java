@@ -16,7 +16,7 @@ public interface IHeatable {
 		return this.getTemperature(ThermoUtil.ATMOSPHERIC_PRESSURE);
 	}
 
-	default double getTemperature(float pressure) {
+	default double getTemperature(double pressure) {
 		return this.getPhasePortrait().getTemperature(pressure, this.getEnergy());
 	}
 }

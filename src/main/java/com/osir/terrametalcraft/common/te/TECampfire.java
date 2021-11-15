@@ -1,6 +1,7 @@
 package com.osir.terrametalcraft.common.te;
 
 import com.github.zi_jing.cuckoolib.LibRegistryHandler;
+import com.github.zi_jing.cuckoolib.block.IIgnitableTileEntity;
 import com.github.zi_jing.cuckoolib.client.render.TextureArea;
 import com.github.zi_jing.cuckoolib.gui.IGuiHolderCodec;
 import com.github.zi_jing.cuckoolib.gui.IModularGuiHolder;
@@ -37,7 +38,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class TECampfire extends SyncedTE implements ITickableTileEntity, IModularGuiHolder {
+public class TECampfire extends SyncedTE implements ITickableTileEntity, IIgnitableTileEntity, IModularGuiHolder {
 	public static final TileEntityType<TECampfire> TYPE = TileEntityType.Builder.of(() -> new TECampfire(), ModBlocks.CAMPFIRE).build(null);
 
 	private static final TextureArea BACKGROUND = TextureArea.createFullTexture(new ResourceLocation(Main.MODID, "textures/gui/campfire/background.png"));
@@ -53,6 +54,7 @@ public class TECampfire extends SyncedTE implements ITickableTileEntity, IModula
 	protected ItemStackHandler inventory;
 	protected IHeatable heat;
 	protected int burnTime;
+	protected double fuelTemp;
 
 	public TECampfire() {
 		super(TYPE);
@@ -69,6 +71,25 @@ public class TECampfire extends SyncedTE implements ITickableTileEntity, IModula
 	}
 
 	@Override
+	public boolean ignite(double temperature) {
+		if (this.burnTime == 0) {
+			ItemStack fuelStack = this.inventory.getStackInSlot(0);
+			Item fuelItem = fuelStack.getItem();
+			if (LibRegistryHandler.ITEM_FUEL_REGISTRY.containsKey(fuelItem)) {
+				ItemFuelEntry entry = LibRegistryHandler.ITEM_FUEL_REGISTRY.get(fuelItem);
+				double point = entry.getRealIgnitionPoint();
+				if (this.heat.getTemperature() < point && this.fuelTemp < point && temperature >= point) {
+					this.burnTime = (int) (entry.getFuelMass() * entry.getFuleInfo().getCalorificValue() / POWER);
+					this.fuelTemp = point;
+					fuelStack.shrink(1);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
 	public void tick() {
 		if (this.getTileEntity().getLevel().isClientSide) {
 			return;
@@ -82,9 +103,14 @@ public class TECampfire extends SyncedTE implements ITickableTileEntity, IModula
 			Item fuelItem = fuelStack.getItem();
 			if (LibRegistryHandler.ITEM_FUEL_REGISTRY.containsKey(fuelItem)) {
 				ItemFuelEntry entry = LibRegistryHandler.ITEM_FUEL_REGISTRY.get(fuelItem);
-				this.burnTime = (int) (entry.getFuelMass() * entry.getFuleInfo().getCalorificValue() / POWER);
-				fuelStack.shrink(1);
+				double point = entry.getRealIgnitionPoint();
+				if (this.heat.getTemperature() >= point || this.fuelTemp >= point) {
+					this.burnTime = (int) (entry.getFuelMass() * entry.getFuleInfo().getCalorificValue() / POWER);
+					this.fuelTemp = point;
+					fuelStack.shrink(1);
+				}
 			}
+			this.fuelTemp = 0;
 		}
 		for (int i = 1; i <= 3; i++) {
 			LazyOptional<IHeatable> optional = this.inventory.getStackInSlot(i).getCapability(ModCapabilities.HEATABLE, null);

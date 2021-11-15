@@ -17,8 +17,6 @@ public class StorageCarving implements IStorage<ICarving> {
 	@Override
 	public void readNBT(Capability<ICarving> capability, ICarving instance, Direction side, INBT base) {
 		CompoundNBT nbt = (CompoundNBT) base;
-		if (nbt.contains("data")) {
-			instance.setAllCarveData(nbt.getLongArray("data"));
-		}
+		instance.setAllCarveData(nbt.getLongArray("data"));
 	}
 }

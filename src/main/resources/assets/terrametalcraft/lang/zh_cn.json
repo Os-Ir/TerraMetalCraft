@@ -20,6 +20,7 @@
 	"item.terrametalcraft.hammer": "锤",
 	"item.terrametalcraft.chisel": "凿子",
 	"item.terrametalcraft.knife": "刀",
+	"item.terrametalcraft.igniter": "起火器",
 
 	"block.terrametalcraft.stone_work_table": "石器加工台",
 	"block.terrametalcraft.grindstone": "研磨石",
@@ -29,6 +30,7 @@
 	"modulargui.stone_work_table.name": "石器加工台",
 	"modulargui.grindstone.name": "研磨石",
 	"modulargui.campfire.name": "篝火",
+	"modulargui.small_crucible.name": "小型坩埚",
 
 	"cuckoolib.item.tool.head": "头部",
 	"cuckoolib.item.tool.handle": "手柄",

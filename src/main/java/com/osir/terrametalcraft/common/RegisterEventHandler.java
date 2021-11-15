@@ -8,23 +8,26 @@ import com.github.zi_jing.cuckoolib.data.ModItemTagsProvider;
 import com.github.zi_jing.cuckoolib.material.SolidShape;
 import com.github.zi_jing.cuckoolib.material.type.MaterialBase;
 import com.osir.terrametalcraft.Main;
+import com.osir.terrametalcraft.client.renderer.entity.BulletRenderer;
+import com.osir.terrametalcraft.client.renderer.entity.JavelinRenderer;
+import com.osir.terrametalcraft.common.entity.BulletEntity;
+import com.osir.terrametalcraft.common.entity.JavelinEntity;
 import com.osir.terrametalcraft.common.item.MaterialItem;
-import com.osir.terrametalcraft.common.te.TECampfire;
-import com.osir.terrametalcraft.common.te.TEGrindstone;
-import com.osir.terrametalcraft.common.te.TEStoneWorkTable;
 import com.osir.terrametalcraft.common.util.loot.GrassDropSerializer;
 import com.osir.terrametalcraft.data.ModRecipesProvider;
 
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Bus.MOD)
@@ -44,16 +47,18 @@ public class RegisterEventHandler {
 	}
 
 	@SubscribeEvent
-	public static void registerTileEntity(RegistryEvent.Register<TileEntityType<?>> event) {
-		TEStoneWorkTable.TYPE.setRegistryName(Main.MODID, "stone_work_table");
-		TEGrindstone.TYPE.setRegistryName(Main.MODID, "grindstone");
-		TECampfire.TYPE.setRegistryName(Main.MODID, "campfire");
-		event.getRegistry().registerAll(TEStoneWorkTable.TYPE, TEGrindstone.TYPE, TECampfire.TYPE);
+	public static void registerModifiers(RegistryEvent.Register<GlobalLootModifierSerializer<?>> event) {
+		event.getRegistry().register(new GrassDropSerializer().setRegistryName(Main.MODID, "grass_drop"));
 	}
 
 	@SubscribeEvent
-	public static void registerModifiers(RegistryEvent.Register<GlobalLootModifierSerializer<?>> event) {
-		event.getRegistry().register(new GrassDropSerializer().setRegistryName(Main.MODID, "grass_drop"));
+	public static void onClientSetUpEvent(FMLClientSetupEvent event) {
+		RenderingRegistry.registerEntityRenderingHandler(JavelinEntity.TYPE, (EntityRendererManager manager) -> {
+			return new JavelinRenderer(manager);
+		});
+		RenderingRegistry.registerEntityRenderingHandler(BulletEntity.TYPE, (EntityRendererManager manager) -> {
+			return new BulletRenderer(manager);
+		});
 	}
 
 	@SubscribeEvent

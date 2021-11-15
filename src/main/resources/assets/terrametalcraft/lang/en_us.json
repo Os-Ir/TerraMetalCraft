@@ -20,6 +20,7 @@
 	"item.terrametalcraft.hammer": "Hammer",
 	"item.terrametalcraft.chisel": "Chisel",
 	"item.terrametalcraft.knife": "Knife",
+	"item.terrametalcraft.igniter": "Igniter",
 
 	"block.terrametalcraft.stone_work_table": "Stone Work Table",
 	"block.terrametalcraft.grindstone": "Grindstone",
@@ -29,6 +30,7 @@
 	"modulargui.stone_work_table.name": "Stone Work Table",
 	"modulargui.grindstone.name": "Grindstone",
 	"modulargui.campfire.name": "Campfire",
+	"modulargui.small_crucible.name": "Small Crucible",
 
 	"cuckoolib.item.tool.head": "Head",
 	"cuckoolib.item.tool.handle": "Handle",

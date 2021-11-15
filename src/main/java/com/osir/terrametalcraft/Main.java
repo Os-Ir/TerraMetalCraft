@@ -5,13 +5,13 @@ import org.apache.logging.log4j.Logger;
 
 import com.osir.terrametalcraft.common.RegistryHandler;
 import com.osir.terrametalcraft.common.block.ModBlocks;
-import com.osir.terrametalcraft.common.item.MaterialItem;
+import com.osir.terrametalcraft.common.entity.ModEntities;
 import com.osir.terrametalcraft.common.item.ModItems;
 import com.osir.terrametalcraft.common.recipe.RecipeHandler;
+import com.osir.terrametalcraft.common.te.ModTileEntities;
 import com.osir.terrametalcraft.common.world.feature.ModFeatures;
 
 import net.minecraft.block.Blocks;
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -50,6 +50,8 @@ public class Main {
 		RegistryHandler.register();
 		ModItems.ITEMS.register(bus);
 		ModBlocks.BLOCKS.register(bus);
+		ModEntities.ENTITY_TYPES.register(bus);
+		ModTileEntities.TILE_ENTITIES.register(bus);
 		ModFeatures.FEATURES.register(bus);
 //		RegistryHandler.LOOT_MODIFIER.register(bus);
 	}
@@ -64,7 +66,7 @@ public class Main {
 		RegistryHandler.registerCapability();
 		RecipeHandler.register();
 		ModFeatures.init();
-		MaterialItem.REGISTERED_MATERIAL_ITEM.values().forEach((item) -> Minecraft.getInstance().getItemColors().register(item::getItemColor, item));
+		RegistryHandler.postRegister();
 	}
 
 	@SubscribeEvent

@@ -48,8 +48,7 @@ public class CapabilityCarving implements ICarving, ICapabilitySerializable<Comp
 
 	@Override
 	public boolean isAreaValid(int index, float require, float tolerance) {
-		return MathUtil.between(((float) MathUtil.getTrueBits(this.data[index])) / 64, require - tolerance,
-				require + tolerance);
+		return MathUtil.between(((float) MathUtil.getTrueBits(this.data[index])) / 64, require - tolerance, require + tolerance);
 	}
 
 	@Override
@@ -79,8 +78,6 @@ public class CapabilityCarving implements ICarving, ICapabilitySerializable<Comp
 
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
-		if (nbt.contains("data")) {
-			this.data = Arrays.copyOf(nbt.getLongArray("data"), 49);
-		}
+		this.data = Arrays.copyOf(nbt.getLongArray("data"), 49);
 	}
 }

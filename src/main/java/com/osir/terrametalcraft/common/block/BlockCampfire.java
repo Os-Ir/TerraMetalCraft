@@ -1,6 +1,9 @@
 package com.osir.terrametalcraft.common.block;
 
 import com.github.zi_jing.cuckoolib.gui.ModularGuiInfo;
+import com.osir.terrametalcraft.api.capability.IHeatable;
+import com.osir.terrametalcraft.api.capability.ModCapabilities;
+import com.osir.terrametalcraft.common.item.ModItems;
 import com.osir.terrametalcraft.common.te.TECampfire;
 
 import net.minecraft.block.AbstractBlock;
@@ -10,6 +13,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -28,12 +32,20 @@ public class BlockCampfire extends Block {
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		if (world.isClientSide) {
 			return ActionResultType.SUCCESS;
 		}
 		TECampfire te = (TECampfire) world.getBlockEntity(pos);
-		ModularGuiInfo.openModularGui(te, (ServerPlayerEntity) player);
+		ItemStack stack = player.getItemInHand(hand);
+		if (stack.getItem() == ModItems.IGNITER) {
+			IHeatable heat = stack.getCapability(ModCapabilities.HEATABLE).orElse(null);
+			if (te.ignite(heat.getTemperature())) {
+				heat.increaseEnergy(-40000);
+			}
+		} else {
+			ModularGuiInfo.openModularGui(te, (ServerPlayerEntity) player);
+		}
 		return ActionResultType.CONSUME;
 	}
 
