@@ -1,0 +1,8 @@
+{
+  "type": "terrametalcraft:stone_work",
+  "input": {
+    "item": "terrametalcraft:grinded_stone"
+  },
+  "output": "terrametalcraft:material_item.knife_heads.stone",
+  "data": 1655735156992
+}

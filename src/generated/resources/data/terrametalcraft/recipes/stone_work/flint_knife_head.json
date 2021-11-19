@@ -1,0 +1,8 @@
+{
+  "type": "terrametalcraft:stone_work",
+  "input": {
+    "item": "terrametalcraft:grinded_flint"
+  },
+  "output": "terrametalcraft:material_item.knife_heads.flint",
+  "data": 1655735156992
+}

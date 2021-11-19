@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:javelin_heads/iron",
+    "#forge:javelin_heads/copper",
+    "#forge:javelin_heads/wrought_iron",
+    "#forge:javelin_heads/pig_iron",
+    "#forge:javelin_heads/steel",
+    "#forge:javelin_heads/bronze",
+    "#forge:javelin_heads/black_bronze",
+    "#forge:javelin_heads/bismuth_bronze",
+    "#forge:javelin_heads/flint",
+    "#forge:javelin_heads/stone"
+  ]
+}

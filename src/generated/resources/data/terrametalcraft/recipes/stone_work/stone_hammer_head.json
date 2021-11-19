@@ -1,0 +1,8 @@
+{
+  "type": "terrametalcraft:stone_work",
+  "input": {
+    "item": "terrametalcraft:chipped_stone"
+  },
+  "output": "terrametalcraft:material_item.hammer_heads.stone",
+  "data": 1023744
+}

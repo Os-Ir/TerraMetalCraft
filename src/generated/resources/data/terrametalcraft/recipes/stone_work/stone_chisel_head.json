@@ -1,0 +1,8 @@
+{
+  "type": "terrametalcraft:stone_work",
+  "input": {
+    "item": "terrametalcraft:grinded_stone"
+  },
+  "output": "terrametalcraft:material_item.chisel_heads.stone",
+  "data": 282453282304
+}

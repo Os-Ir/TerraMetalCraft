@@ -22,6 +22,7 @@ public class ModBlocks {
 	public static final Block STONE_WORK_TABLE = new BlockStoneWorkTable();
 	public static final Block GRINDSTONE = new BlockGrindstone();
 	public static final Block CAMPFIRE = new BlockCampfire();
+	public static final Block POTTERY_WORK_TABLE = new BlockPotteryWorkTable();
 
 	public static final RegistryObject<Block> _COVER_ITEM_STONE = BLOCKS.register("cover_item_stone", () -> COVER_ITEM_STONE);
 	public static final RegistryObject<Block> _COVER_ITEM_FLINT = BLOCKS.register("cover_item_flint", () -> COVER_ITEM_FLINT);

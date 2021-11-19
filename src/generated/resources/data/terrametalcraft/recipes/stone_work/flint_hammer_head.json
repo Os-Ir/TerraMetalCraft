@@ -1,0 +1,8 @@
+{
+  "type": "terrametalcraft:stone_work",
+  "input": {
+    "item": "terrametalcraft:chipped_flint"
+  },
+  "output": "terrametalcraft:material_item.hammer_heads.flint",
+  "data": 1023744
+}

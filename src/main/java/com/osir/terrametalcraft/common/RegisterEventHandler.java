@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.zi_jing.cuckoolib.data.ModBlockTagsProvider;
-import com.github.zi_jing.cuckoolib.data.ModItemTagsProvider;
 import com.github.zi_jing.cuckoolib.material.SolidShape;
 import com.github.zi_jing.cuckoolib.material.type.MaterialBase;
 import com.osir.terrametalcraft.Main;
@@ -14,6 +13,7 @@ import com.osir.terrametalcraft.common.entity.BulletEntity;
 import com.osir.terrametalcraft.common.entity.JavelinEntity;
 import com.osir.terrametalcraft.common.item.MaterialItem;
 import com.osir.terrametalcraft.common.util.loot.GrassDropSerializer;
+import com.osir.terrametalcraft.data.ModItemTagsProvider;
 import com.osir.terrametalcraft.data.ModRecipesProvider;
 
 import net.minecraft.client.renderer.entity.EntityRendererManager;

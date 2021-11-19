@@ -28,7 +28,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ToolType;
 
 public class ToolJavelin extends ToolBase implements IGrindstoneTool, IToolUsable {
 	public static final ResourceLocation REGISTRY_NAME = new ResourceLocation(Main.MODID, "javelin");
@@ -48,16 +47,6 @@ public class ToolJavelin extends ToolBase implements IGrindstoneTool, IToolUsabl
 	@Override
 	public boolean canHarvestBlock(ItemStack stack, BlockState state) {
 		return false;
-	}
-
-	@Override
-	public int getHarvestLevel(ItemStack stack, ToolType tool, PlayerEntity player, BlockState blockState) {
-		return -1;
-	}
-
-	@Override
-	public float getDestroySpeed(ItemStack stack) {
-		return 0;
 	}
 
 	@Override

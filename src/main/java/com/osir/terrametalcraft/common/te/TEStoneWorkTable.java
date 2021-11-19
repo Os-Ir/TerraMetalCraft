@@ -1,9 +1,9 @@
 package com.osir.terrametalcraft.common.te;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import com.github.zi_jing.cuckoolib.client.render.IWidgetRenderer;
 import com.github.zi_jing.cuckoolib.client.render.TextureArea;
@@ -16,7 +16,6 @@ import com.github.zi_jing.cuckoolib.gui.impl.PlanGuiHolder;
 import com.github.zi_jing.cuckoolib.gui.impl.TileEntityCodec;
 import com.github.zi_jing.cuckoolib.gui.widget.ButtonWidget;
 import com.github.zi_jing.cuckoolib.gui.widget.SlotWidget;
-import com.github.zi_jing.cuckoolib.recipe.Recipe;
 import com.github.zi_jing.cuckoolib.util.data.ButtonClickData;
 import com.github.zi_jing.cuckoolib.util.math.MathUtil;
 import com.google.common.cache.Cache;
@@ -27,7 +26,8 @@ import com.osir.terrametalcraft.api.capability.ICarving;
 import com.osir.terrametalcraft.api.capability.ModCapabilities;
 import com.osir.terrametalcraft.api.te.SyncedTE;
 import com.osir.terrametalcraft.common.block.ModBlocks;
-import com.osir.terrametalcraft.common.recipe.RecipeHandler;
+import com.osir.terrametalcraft.common.recipe.ModRecipeTypes;
+import com.osir.terrametalcraft.common.recipe.StoneWorkRecipe;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
@@ -42,9 +42,9 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, IModularGuiHolder, IPlanInfoTileEntity {
@@ -56,7 +56,7 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 	private static final TextureArea STONE_SMALL = TextureArea.createTexture(new ResourceLocation(Main.MODID, "textures/gui/stone_work_table/stone.png"), 0, 0, 0.125f, 0.125f);
 	private static final ITextComponent TITLE = new TranslationTextComponent("modulargui.stone_work_table.name");
 
-	private static final Cache<Item, List<Recipe>> CACHE_RECIPE = CacheBuilder.newBuilder().maximumSize(64).build();
+	private static final Cache<Item, List<StoneWorkRecipe>> CACHE_RECIPE = CacheBuilder.newBuilder().maximumSize(64).build();
 	private static final Cache<Item, Boolean> CACHE_BLACK_LIST = CacheBuilder.newBuilder().maximumSize(64).build();
 
 	private ItemStackHandler inventory;
@@ -77,15 +77,15 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 		this.plan = -1;
 	}
 
-	private static List<Recipe> getRecipe(ItemStack stack) {
+	private List<StoneWorkRecipe> getRecipe(ItemStack stack) {
 		Item item = stack.getItem();
 		if (stack.getCount() != 1 || CACHE_BLACK_LIST.asMap().containsKey(item)) {
-			return new ArrayList<Recipe>();
+			return Collections.emptyList();
 		}
 		if (CACHE_RECIPE.asMap().containsKey(item)) {
 			return CACHE_RECIPE.getIfPresent(item);
 		}
-		List<Recipe> recipes = RecipeHandler.MAP_CARVING.findAllRecipes(Arrays.asList(new ItemStack(item)), new ArrayList<FluidStack>());
+		List<StoneWorkRecipe> recipes = this.level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.STONE_WORK_TYPE).stream().filter((recipe) -> recipe.matches(stack)).collect(Collectors.toList());
 		if (recipes.isEmpty()) {
 			CACHE_BLACK_LIST.put(item, false);
 		} else {
@@ -169,16 +169,14 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 			}
 		}
 		if (this.plan >= 0) {
-			List<Recipe> list = getRecipe(stack);
+			List<StoneWorkRecipe> list = this.getRecipe(stack);
 			if (list.size() > this.plan) {
-				Recipe recipe = list.get(this.plan);
-				if (recipe.containsProperty(RecipeHandler.PROPERTY_CARVING)) {
-					long value = recipe.getPropertyValue(RecipeHandler.PROPERTY_CARVING);
-					int alpha = 60 + (int) (Math.cos(((float) (System.currentTimeMillis() % 2000)) / 2000 * 2 * Math.PI) * 40);
-					for (int i = 0; i < 49; i++) {
-						if ((value & (1l << i)) != 0) {
-							OUTLINE.draw(transform, x + (i % 7) * 16, y + i / 7 * 16, 16, 16, alpha);
-						}
+				StoneWorkRecipe recipe = list.get(this.plan);
+				long value = recipe.data;
+				int alpha = 60 + (int) (MathHelper.cos((float) ((float) (System.currentTimeMillis() % 2000) / 2000 * 2 * Math.PI)) * 40);
+				for (int i = 0; i < 49; i++) {
+					if ((value & (1l << i)) != 0) {
+						OUTLINE.draw(transform, x + (i % 7) * 16, y + i / 7 * 16, 16, 16, alpha);
 					}
 				}
 			}
@@ -197,13 +195,10 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 
 	private boolean checkRecipe() {
 		ItemStack stack = this.inventory.getStackInSlot(0);
-		List<Recipe> list = getRecipe(stack);
+		List<StoneWorkRecipe> list = this.getRecipe(stack);
 		if (list.size() > this.plan && this.plan >= 0) {
-			Recipe recipe = list.get(this.plan);
-			if (!recipe.containsProperty(RecipeHandler.PROPERTY_CARVING)) {
-				return true;
-			}
-			long value = recipe.getPropertyValue(RecipeHandler.PROPERTY_CARVING);
+			StoneWorkRecipe recipe = list.get(this.plan);
+			long value = recipe.data;
 			if (stack.getCapability(ModCapabilities.CARVING).isPresent()) {
 				ICarving cap = stack.getCapability(ModCapabilities.CARVING).orElseThrow(() -> new NullPointerException());
 				for (int i = 0; i < 49; i++) {
@@ -217,7 +212,7 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 	}
 
 	private void setOutputStack() {
-		ItemStack result = this.inventory.insertItem(1, getRecipe(this.inventory.getStackInSlot(0)).get(this.plan).getOutputs().get(0).getItemStack().copy(), false);
+		ItemStack result = this.inventory.insertItem(1, this.getRecipe(this.inventory.getStackInSlot(0)).get(this.plan).output.get().copy(), false);
 		if (!result.isEmpty()) {
 			BlockPos pos = this.getBlockPos();
 			InventoryHelper.dropItemStack(this.level, pos.getX(), pos.getY(), pos.getZ(), result);
@@ -226,15 +221,15 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 
 	@Override
 	public int getPlanCount() {
-		return getRecipe(this.inventory.getStackInSlot(0)).size();
+		return this.getRecipe(this.inventory.getStackInSlot(0)).size();
 	}
 
 	@Override
 	public IWidgetRenderer getOverlayRenderer(int count) {
 		return (transform, x, y, width, height) -> {
-			List<Recipe> recipes = getRecipe(this.inventory.getStackInSlot(0));
+			List<StoneWorkRecipe> recipes = this.getRecipe(this.inventory.getStackInSlot(0));
 			if (recipes.size() > count) {
-				Minecraft.getInstance().getItemRenderer().renderAndDecorateItem(recipes.get(count).getOutputs().get(0).getItemStack(), x + 1, y + 1);
+				Minecraft.getInstance().getItemRenderer().renderAndDecorateItem(recipes.get(count).output.get(), x + 1, y + 1);
 			}
 		};
 	}
@@ -266,9 +261,9 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 		return ModularGuiInfo.builder(176, 216).setBackground(BACKGROUND).addPlayerInventory(player.inventory, 8, 134).addWidget(0, new SlotWidget(153, 7, this.inventory, 0)).addWidget(1, new SlotWidget(153, 101, this.inventory, 1, false, true))
 				.addWidget(2, new ButtonWidget(0, 6, 6, 112, 112, this::onStoneWork).setRenderer(this::renderWorkButton)).addWidget(3, new ButtonWidget(1, 133, 7, 16, 16, this::openPlanGui).setRenderer((transform, x, y, width, height) -> {
 					if (this.plan >= 0) {
-						List<Recipe> recipes = getRecipe(this.inventory.getStackInSlot(0));
+						List<StoneWorkRecipe> recipes = this.getRecipe(this.inventory.getStackInSlot(0));
 						if (recipes.size() > this.plan) {
-							Minecraft.getInstance().getItemRenderer().renderAndDecorateItem(recipes.get(this.plan).getOutputs().get(0).getItemStack(), x, y);
+							Minecraft.getInstance().getItemRenderer().renderAndDecorateItem(recipes.get(this.plan).output.get(), x, y);
 						}
 					}
 				})).build(player);

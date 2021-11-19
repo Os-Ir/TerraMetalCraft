@@ -1,0 +1,21 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "terrametalcraft:stone_chisel_head"
+    ]
+  },
+  "criteria": {
+    "has_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "terrametalcraft:stone_chisel_head"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_recipe"
+    ]
+  ]
+}

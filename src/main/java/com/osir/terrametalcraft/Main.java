@@ -7,7 +7,7 @@ import com.osir.terrametalcraft.common.RegistryHandler;
 import com.osir.terrametalcraft.common.block.ModBlocks;
 import com.osir.terrametalcraft.common.entity.ModEntities;
 import com.osir.terrametalcraft.common.item.ModItems;
-import com.osir.terrametalcraft.common.recipe.RecipeHandler;
+import com.osir.terrametalcraft.common.recipe.ModRecipeSerializers;
 import com.osir.terrametalcraft.common.te.ModTileEntities;
 import com.osir.terrametalcraft.common.world.feature.ModFeatures;
 
@@ -53,6 +53,7 @@ public class Main {
 		ModEntities.ENTITY_TYPES.register(bus);
 		ModTileEntities.TILE_ENTITIES.register(bus);
 		ModFeatures.FEATURES.register(bus);
+		ModRecipeSerializers.RECIPE_SERIALIZERS.register(bus);
 //		RegistryHandler.LOOT_MODIFIER.register(bus);
 	}
 
@@ -64,7 +65,6 @@ public class Main {
 	public static void setup(FMLCommonSetupEvent event) {
 		RegistryHandler.registerTool();
 		RegistryHandler.registerCapability();
-		RecipeHandler.register();
 		ModFeatures.init();
 		RegistryHandler.postRegister();
 	}

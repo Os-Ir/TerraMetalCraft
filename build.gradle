@@ -45,6 +45,8 @@ processResources {
     }
 }
 
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
 minecraft {
     mappings channel: 'official', version: '1.16.5'
     runs {
@@ -89,8 +91,6 @@ minecraft {
 mixin {
     add sourceSets.main, "terrametalcraft.refmap.json"
 }
-
-sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.0'
