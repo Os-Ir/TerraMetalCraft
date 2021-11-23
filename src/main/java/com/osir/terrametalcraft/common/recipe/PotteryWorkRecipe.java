@@ -9,12 +9,12 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 
-public class StoneWorkRecipe extends RecipeBase {
+public class PotteryWorkRecipe extends RecipeBase {
 	public Ingredient input;
 	public OutputItem output;
-	public long data;
+	public int[] data;
 
-	public StoneWorkRecipe(ResourceLocation id, Ingredient input, OutputItem output, long data) {
+	public PotteryWorkRecipe(ResourceLocation id, Ingredient input, OutputItem output, int[] data) {
 		super(id);
 		this.input = input;
 		this.output = output;
@@ -32,11 +32,11 @@ public class StoneWorkRecipe extends RecipeBase {
 
 	@Override
 	public IRecipeSerializer<?> getSerializer() {
-		return ModRecipeSerializers.STONE_WORK_SERIALIZER;
+		return ModRecipeSerializers.POTTERY_WORK_SERIALIZER;
 	}
 
 	@Override
 	public IRecipeType<?> getType() {
-		return ModRecipeTypes.STONE_WORK_TYPE;
+		return ModRecipeTypes.POTTERY_WORK_TYPE;
 	}
 }

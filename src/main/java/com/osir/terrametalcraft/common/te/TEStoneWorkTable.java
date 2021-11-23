@@ -42,7 +42,6 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.items.ItemStackHandler;
@@ -105,7 +104,7 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 	private void onStoneWork(ButtonClickData clickData, ModularContainer container) {
 		ItemStack stack = this.inventory.getStackInSlot(0);
 		if (stack.getCount() == 1 && stack.getCapability(ModCapabilities.CARVING).isPresent()) {
-			long[] data = this.inventory.getStackInSlot(0).getCapability(ModCapabilities.CARVING).orElseThrow(null).getAllCarveData();
+			long[] data = this.inventory.getStackInSlot(0).getCapability(ModCapabilities.CARVING).orElse(null).getAllCarveData();
 			int dataCount = clickData.getY() / 16 * 7 + clickData.getX() / 16;
 			int px = clickData.getX() / 2;
 			int py = clickData.getY() / 2;
@@ -173,7 +172,7 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 			if (list.size() > this.plan) {
 				StoneWorkRecipe recipe = list.get(this.plan);
 				long value = recipe.data;
-				int alpha = 60 + (int) (MathHelper.cos((float) ((float) (System.currentTimeMillis() % 2000) / 2000 * 2 * Math.PI)) * 40);
+				int alpha = (int) (MathUtil.getTriangularWave(2000, 0.125, 0.25) * 0xff);
 				for (int i = 0; i < 49; i++) {
 					if ((value & (1l << i)) != 0) {
 						OUTLINE.draw(transform, x + (i % 7) * 16, y + i / 7 * 16, 16, 16, alpha);
@@ -200,15 +199,16 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 			StoneWorkRecipe recipe = list.get(this.plan);
 			long value = recipe.data;
 			if (stack.getCapability(ModCapabilities.CARVING).isPresent()) {
-				ICarving cap = stack.getCapability(ModCapabilities.CARVING).orElseThrow(() -> new NullPointerException());
+				ICarving cap = stack.getCapability(ModCapabilities.CARVING).orElse(null);
 				for (int i = 0; i < 49; i++) {
 					if (!cap.isAreaValid(i, (value & (1l << i)) == 0 ? 1 : 0, 0.125f)) {
 						return false;
 					}
 				}
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	private void setOutputStack() {
@@ -236,7 +236,7 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 
 	@Override
 	public void callback(int count) {
-		if (getRecipe(this.inventory.getStackInSlot(0)).size() <= count) {
+		if (this.getRecipe(this.inventory.getStackInSlot(0)).size() <= count) {
 			return;
 		}
 		this.setPlan(count);
@@ -270,8 +270,8 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 	}
 
 	@Override
-	public CompoundNBT serializeNBT() {
-		CompoundNBT nbt = super.serializeNBT();
+	public CompoundNBT save(CompoundNBT nbt) {
+		super.save(nbt);
 		nbt.put("inventory", this.inventory.serializeNBT());
 		if (this.plan >= 0) {
 			nbt.putInt("plan", this.plan);
@@ -280,12 +280,12 @@ public class TEStoneWorkTable extends SyncedTE implements ITickableTileEntity, I
 	}
 
 	@Override
-	public void deserializeNBT(BlockState state, CompoundNBT nbt) {
+	public void load(BlockState state, CompoundNBT nbt) {
+		super.load(state, nbt);
 		this.inventory.deserializeNBT(nbt.getCompound("inventory"));
 		if (nbt.contains("plan")) {
 			this.plan = nbt.getInt("plan");
 		}
-		super.deserializeNBT(state, nbt);
 	}
 
 	@Override

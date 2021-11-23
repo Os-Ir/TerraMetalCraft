@@ -15,12 +15,21 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 public class BlockPotteryWorkTable extends Block {
+	private static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 8, 16);
+
 	public BlockPotteryWorkTable() {
-		super(AbstractBlock.Properties.of(Material.STONE).strength(1.5f, 6).sound(SoundType.STONE));
+		super(AbstractBlock.Properties.of(Material.STONE).strength(1.5f, 6).sound(SoundType.STONE).noOcclusion());
+	}
+
+	@Override
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		return SHAPE;
 	}
 
 	@Override

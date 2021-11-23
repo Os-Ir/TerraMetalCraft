@@ -7,6 +7,7 @@ import net.minecraft.item.crafting.IRecipeType;
 
 public class ModRecipeTypes {
 	public static final IRecipeType<StoneWorkRecipe> STONE_WORK_TYPE = register("stone_work");
+	public static final IRecipeType<PotteryWorkRecipe> POTTERY_WORK_TYPE = register("pottery_work");
 
 	private static <T extends IRecipe<?>> IRecipeType<T> register(String name) {
 		return IRecipeType.register(Main.MODID + ":" + name);

@@ -32,4 +32,5 @@ public class ModBlocks {
 	public static final RegistryObject<Block> _STONE_WORK_TABLE = BLOCKS.register("stone_work_table", () -> STONE_WORK_TABLE);
 	public static final RegistryObject<Block> _GRINDSTONE = BLOCKS.register("grindstone", () -> GRINDSTONE);
 	public static final RegistryObject<Block> _CAMPFIRE = BLOCKS.register("campfire", () -> CAMPFIRE);
+	public static final RegistryObject<Block> _POTTERY_WORK_TABLE = BLOCKS.register("pottery_work_table", () -> POTTERY_WORK_TABLE);
 }

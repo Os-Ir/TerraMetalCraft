@@ -7,7 +7,7 @@ import com.osir.terrametalcraft.common.RegistryHandler;
 import com.osir.terrametalcraft.common.block.ModBlocks;
 import com.osir.terrametalcraft.common.entity.ModEntities;
 import com.osir.terrametalcraft.common.item.ModItems;
-import com.osir.terrametalcraft.common.recipe.ModRecipeSerializers;
+import com.osir.terrametalcraft.common.recipe.serializer.ModRecipeSerializers;
 import com.osir.terrametalcraft.common.te.ModTileEntities;
 import com.osir.terrametalcraft.common.world.feature.ModFeatures;
 

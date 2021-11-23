@@ -31,6 +31,8 @@ public class ModItems {
 	public static final Item LEAVES = new ItemBase(Main.GROUP_ITEM);
 	public static final Item THIN_STRAW_ROPE = new ItemBase(Main.GROUP_ITEM);
 	public static final ItemSmallCrucible SMALL_CRUCIBLE = new ItemSmallCrucible();
+	public static final Item CLAY_ADOBE = new ItemBase(Main.GROUP_ITEM);
+	public static final Item SMALL_CLAY_ADOBE = new ItemBase(Main.GROUP_ITEM);
 
 	public static final Item GUN = new ItemGun();
 
@@ -43,6 +45,7 @@ public class ModItems {
 	public static final BlockItem BLOCK_CAMPFIRE = new BlockItem(ModBlocks.CAMPFIRE, new Item.Properties().tab(Main.GROUP_EQUIPMENT));
 	public static final BlockItem BLOCK_GRINDSTONE = new BlockItem(ModBlocks.GRINDSTONE, new Item.Properties().tab(Main.GROUP_EQUIPMENT));
 	public static final BlockItem BLOCK_STONE_WORK_TABLE = new BlockItem(ModBlocks.STONE_WORK_TABLE, new Item.Properties().tab(Main.GROUP_EQUIPMENT));
+	public static final BlockItem BLOCK_POTTERY_WORK_TABLE = new BlockItem(ModBlocks.POTTERY_WORK_TABLE, new Item.Properties().tab(Main.GROUP_EQUIPMENT));
 
 	public static final RegistryObject<Item> _TMC_COIN = ITEMS.register("tmc_coin", () -> TMC_COIN);
 	public static final RegistryObject<Item> _STONE = ITEMS.register("stone", () -> STONE);
@@ -55,6 +58,8 @@ public class ModItems {
 	public static final RegistryObject<Item> _LEAVES = ITEMS.register("leaves", () -> LEAVES);
 	public static final RegistryObject<Item> _THIN_STRAW_ROPE = ITEMS.register("thin_straw_rope", () -> THIN_STRAW_ROPE);
 	public static final RegistryObject<Item> _SMALL_CRUCIBLE = ITEMS.register("small_crucible", () -> SMALL_CRUCIBLE);
+	public static final RegistryObject<Item> _CLAY_ADOBE = ITEMS.register("clay_adobe", () -> CLAY_ADOBE);
+	public static final RegistryObject<Item> _SMALL_CLAY_ADOBE = ITEMS.register("small_clay_adobe", () -> SMALL_CLAY_ADOBE);
 
 	public static final RegistryObject<Item> _GUN = ITEMS.register("gun", () -> GUN);
 
@@ -67,4 +72,5 @@ public class ModItems {
 	public static final RegistryObject<BlockItem> _BLOCK_CAMPFIRE = ITEMS.register("campfire", () -> BLOCK_CAMPFIRE);
 	public static final RegistryObject<BlockItem> _BLOCK_GRINDSTONE = ITEMS.register("grindstone", () -> BLOCK_GRINDSTONE);
 	public static final RegistryObject<BlockItem> _BLOCK_STONE_WORK_TABLE = ITEMS.register("stone_work_table", () -> BLOCK_STONE_WORK_TABLE);
+	public static final RegistryObject<BlockItem> _POTTERY_STONE_WORK_TABLE = ITEMS.register("pottery_work_table", () -> BLOCK_POTTERY_WORK_TABLE);
 }

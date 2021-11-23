@@ -9,7 +9,10 @@ public class ModCapabilities {
 
 	@CapabilityInject(IHeatable.class)
 	public static final Capability<IHeatable> HEATABLE = null;
-	
+
 	@CapabilityInject(IHeatContainer.class)
 	public static final Capability<IHeatContainer> HEAT_CONTAINER = null;
+
+	@CapabilityInject(IPottery.class)
+	public static final Capability<IPottery> POTTERY = null;
 }

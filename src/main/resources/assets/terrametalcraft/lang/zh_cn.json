@@ -16,6 +16,8 @@
 	"item.terrametalcraft.leaves": "树叶",
 	"item.terrametalcraft.thin_straw_rope": "细草绳",
 	"item.terrametalcraft.small_crucible": "小型坩埚",
+	"item.terrametalcraft.clay_adobe": "黏土坯",
+	"item.terrametalcraft.small_clay_adobe": "小型黏土坯",
 
 	"item.terrametalcraft.hammer": "锤",
 	"item.terrametalcraft.chisel": "凿子",
@@ -26,14 +28,17 @@
 	"block.terrametalcraft.grindstone": "研磨石",
 	"block.terrametalcraft.campfire": "篝火",
 	"block.terrametalcraft.cover_grass": "草",
+	"block.terrametalcraft.pottery_work_table": "陶器加工台",
 
 	"modulargui.stone_work_table.name": "石器加工台",
 	"modulargui.grindstone.name": "研磨石",
 	"modulargui.campfire.name": "篝火",
 	"modulargui.small_crucible.name": "小型坩埚",
+	"modulargui.pottery_work_table.name": "陶器加工台",
 
 	"cuckoolib.item.tool.head": "头部",
 	"cuckoolib.item.tool.handle": "手柄",
 
-	"cuckoolib.item.carving.carved": "已雕刻"
+	"cuckoolib.item.carving.carved": "已雕刻",
+	"cuckoolib.item.pottery.worked": "已加工"
 }

@@ -168,18 +168,22 @@ public class TECampfire extends SyncedTE implements ITickableTileEntity, IIgnita
 	}
 
 	@Override
-	public CompoundNBT serializeNBT() {
-		CompoundNBT nbt = super.serializeNBT();
+	public CompoundNBT save(CompoundNBT nbt) {
+		super.save(nbt);
 		nbt.put("inventory", this.inventory.serializeNBT());
 		nbt.put("heat", ModCapabilities.HEATABLE.writeNBT(this.heat, null));
+		nbt.putInt("burnTime", this.burnTime);
+		nbt.putDouble("fuelTemp", this.fuelTemp);
 		return nbt;
 	}
 
 	@Override
-	public void deserializeNBT(BlockState state, CompoundNBT nbt) {
+	public void load(BlockState state, CompoundNBT nbt) {
+		super.load(state, nbt);
 		this.inventory.deserializeNBT(nbt.getCompound("inventory"));
 		ModCapabilities.HEATABLE.readNBT(this.heat, null, nbt.get("heat"));
-		super.deserializeNBT(state, nbt);
+		this.burnTime = nbt.getInt("burnTime");
+		this.fuelTemp = nbt.getDouble("fuelTemp");
 	}
 
 	@Override

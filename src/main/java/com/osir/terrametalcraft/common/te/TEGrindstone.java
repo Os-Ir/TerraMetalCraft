@@ -211,8 +211,8 @@ public class TEGrindstone extends SyncedTE implements ITickableTileEntity, IModu
 	}
 
 	@Override
-	public CompoundNBT serializeNBT() {
-		CompoundNBT nbt = super.serializeNBT();
+	public CompoundNBT save(CompoundNBT nbt) {
+		super.save(nbt);
 		nbt.put("inventory", this.inventory.serializeNBT());
 		if (this.plan != null) {
 			nbt.putString("plan", this.plan.getRegistryName().toString());
@@ -225,7 +225,8 @@ public class TEGrindstone extends SyncedTE implements ITickableTileEntity, IModu
 	}
 
 	@Override
-	public void deserializeNBT(BlockState state, CompoundNBT nbt) {
+	public void load(BlockState state, CompoundNBT nbt) {
+		super.load(state, nbt);
 		this.inventory.deserializeNBT(nbt.getCompound("inventory"));
 		if (nbt.contains("plan")) {
 			this.plan = (IGrindstoneTool) ModRegistries.REGISTRY_TOOL.getValue(new ResourceLocation(nbt.getString("plan")));
@@ -234,7 +235,6 @@ public class TEGrindstone extends SyncedTE implements ITickableTileEntity, IModu
 			this.order = nbt.getIntArray("order");
 		}
 		this.progress = nbt.getInt("progress");
-		super.deserializeNBT(state, nbt);
 	}
 
 	@Override

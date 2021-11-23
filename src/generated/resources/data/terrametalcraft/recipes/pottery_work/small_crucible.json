@@ -1,0 +1,17 @@
+{
+  "type": "terrametalcraft:pottery_work",
+  "input": {
+    "item": "terrametalcraft:small_clay_adobe"
+  },
+  "output": "terrametalcraft:small_crucible",
+  "data": [
+    5,
+    5,
+    5,
+    10,
+    10,
+    15,
+    20,
+    25
+  ]
+}

@@ -8,6 +8,7 @@ import com.osir.terrametalcraft.Main;
 import com.osir.terrametalcraft.api.capability.CapabilityCarving;
 import com.osir.terrametalcraft.api.capability.CapabilityHeatContainer;
 import com.osir.terrametalcraft.api.capability.CapabilityHeatable;
+import com.osir.terrametalcraft.api.capability.CapabilityPottery;
 import com.osir.terrametalcraft.api.capability.ModCapabilities;
 import com.osir.terrametalcraft.api.thermo.impl.RecipePhasePortrait;
 import com.osir.terrametalcraft.api.thermo.impl.SolidPhasePortrait;
@@ -68,6 +69,9 @@ public class EventHandler {
 		}
 		if (item == ModItems.IGNITER) {
 			event.addCapability(CapabilityHeatable.KEY, new CapabilityHeatable(new SolidPhasePortrait(800)));
+		}
+		if (item == ModItems.CLAY_ADOBE || item == ModItems.SMALL_CLAY_ADOBE) {
+			event.addCapability(CapabilityPottery.KEY, new CapabilityPottery());
 		}
 	}
 
@@ -158,6 +162,11 @@ public class EventHandler {
 		stack.getCapability(ModCapabilities.CARVING).ifPresent((cap) -> {
 			if (!cap.isEmpty()) {
 				tooltip.add(new StringTextComponent(TextFormatting.AQUA + I18n.get("cuckoolib.item.carving.carved")));
+			}
+		});
+		stack.getCapability(ModCapabilities.POTTERY).ifPresent((cap) -> {
+			if (!cap.isEmpty()) {
+				tooltip.add(new StringTextComponent(TextFormatting.AQUA + I18n.get("cuckoolib.item.pottery.worked")));
 			}
 		});
 		stack.getCapability(ModCapabilities.HEAT_CONTAINER).ifPresent((cap) -> {

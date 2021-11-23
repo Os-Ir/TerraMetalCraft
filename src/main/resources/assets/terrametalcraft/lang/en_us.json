@@ -16,6 +16,8 @@
 	"item.terrametalcraft.leaves": "Leaves",
 	"item.terrametalcraft.thin_straw_rope": "Thin Straw Rope",
 	"item.terrametalcraft.small_crucible": "Small Crucible",
+	"item.terrametalcraft.clay_adobe": "Clay Adobe",
+	"item.terrametalcraft.small_clay_adobe": "Small Clay Adobe",
 
 	"item.terrametalcraft.hammer": "Hammer",
 	"item.terrametalcraft.chisel": "Chisel",
@@ -26,14 +28,17 @@
 	"block.terrametalcraft.grindstone": "Grindstone",
 	"block.terrametalcraft.campfire": "Campfire",
 	"block.terrametalcraft.cover_grass": "Grass",
+	"block.terrametalcraft.pottery_work_table": "Pottery Work Table",
 	
 	"modulargui.stone_work_table.name": "Stone Work Table",
 	"modulargui.grindstone.name": "Grindstone",
 	"modulargui.campfire.name": "Campfire",
 	"modulargui.small_crucible.name": "Small Crucible",
+	"modulargui.pottery_work_table.name": "Pottery Work Table",
 
 	"cuckoolib.item.tool.head": "Head",
 	"cuckoolib.item.tool.handle": "Handle",
 
-	"cuckoolib.item.carving.carved": "Carved"
+	"cuckoolib.item.carving.carved": "Carved",
+	"cuckoolib.item.pottery.worked": "Worked"
 }
